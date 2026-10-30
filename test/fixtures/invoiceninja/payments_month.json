@@ -1,0 +1,110 @@
+{
+  "data": [
+    {
+      "id": "Wpmbk5ezJn",
+      "user_id": "VolejRejNm",
+      "assigned_user_id": "",
+      "amount": 300,
+      "refunded": 0,
+      "applied": 300,
+      "transaction_reference": "",
+      "transaction_id": "",
+      "date": "2026-10-30",
+      "is_manual": true,
+      "created_at": 1793380886,
+      "updated_at": 1793380886,
+      "archived_at": 0,
+      "is_deleted": false,
+      "type_id": "",
+      "invitation_id": "",
+      "private_notes": "",
+      "number": "0002",
+      "custom_value1": "",
+      "custom_value2": "",
+      "custom_value3": "",
+      "custom_value4": "",
+      "client_id": "Wpmbk5ezJn",
+      "client_contact_id": "",
+      "company_gateway_id": "",
+      "gateway_type_id": "",
+      "status_id": "4",
+      "project_id": "",
+      "vendor_id": "",
+      "currency_id": "1",
+      "exchange_rate": 1,
+      "exchange_currency_id": "",
+      "tags": [],
+      "paymentables": [
+        {
+          "id": "Wpmbk5ezJn",
+          "invoice_id": "wMvbmOeYAl",
+          "payment_id": "Wpmbk5ezJn",
+          "amount": 300,
+          "refunded": 0,
+          "created_at": 1793358000,
+          "updated_at": 1793380886,
+          "archived_at": 0
+        }
+      ],
+      "documents": []
+    },
+    {
+      "id": "VolejRejNm",
+      "user_id": "VolejRejNm",
+      "assigned_user_id": "",
+      "amount": 200,
+      "refunded": 0,
+      "applied": 200,
+      "transaction_reference": "",
+      "transaction_id": "",
+      "date": "2026-10-29",
+      "is_manual": true,
+      "created_at": 1793380886,
+      "updated_at": 1793380886,
+      "archived_at": 0,
+      "is_deleted": false,
+      "type_id": "",
+      "invitation_id": "",
+      "private_notes": "",
+      "number": "0001",
+      "custom_value1": "",
+      "custom_value2": "",
+      "custom_value3": "",
+      "custom_value4": "",
+      "client_id": "Wpmbk5ezJn",
+      "client_contact_id": "",
+      "company_gateway_id": "",
+      "gateway_type_id": "",
+      "status_id": "4",
+      "project_id": "",
+      "vendor_id": "",
+      "currency_id": "1",
+      "exchange_rate": 1,
+      "exchange_currency_id": "",
+      "tags": [],
+      "paymentables": [
+        {
+          "id": "VolejRejNm",
+          "invoice_id": "Wpmbk5ezJn",
+          "payment_id": "VolejRejNm",
+          "amount": 200,
+          "refunded": 0,
+          "created_at": 1793271600,
+          "updated_at": 1793380886,
+          "archived_at": 0
+        }
+      ],
+      "documents": []
+    }
+  ],
+  "meta": {
+    "pagination": {
+      "total": 2,
+      "count": 2,
+      "per_page": 100,
+      "current_page": 1,
+      "total_pages": 1,
+      "links": {}
+    }
+  }
+}
