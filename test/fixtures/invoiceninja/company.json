@@ -1,0 +1,1231 @@
+{
+  "data": {
+    "id": "VolejRejNm",
+    "company_key": "0000EXAMPLECOMPANYKEY00000000000",
+    "update_products": true,
+    "fill_products": true,
+    "convert_products": false,
+    "custom_surcharge_taxes1": false,
+    "custom_surcharge_taxes2": false,
+    "custom_surcharge_taxes3": false,
+    "custom_surcharge_taxes4": false,
+    "show_product_cost": false,
+    "enable_product_cost": false,
+    "show_product_details": true,
+    "enable_product_quantity": true,
+    "default_quantity": true,
+    "custom_fields": {},
+    "size_id": "",
+    "industry_id": "",
+    "first_month_of_year": "1",
+    "first_day_of_week": "",
+    "subdomain": "",
+    "portal_mode": "domain",
+    "portal_domain": "http://192.0.2.20",
+    "settings": {
+      "auto_archive_invoice": false,
+      "qr_iban": "",
+      "besr_id": "",
+      "lock_invoices": "off",
+      "enable_client_portal_tasks": false,
+      "show_all_tasks_client_portal": "invoiced",
+      "enable_client_portal_password": false,
+      "enable_client_portal": true,
+      "enable_client_portal_dashboard": false,
+      "signature_on_pdf": false,
+      "document_email_attachment": false,
+      "portal_design_id": "1",
+      "timezone_id": "1",
+      "date_format_id": "1",
+      "military_time": false,
+      "language_id": "1",
+      "show_currency_code": false,
+      "company_gateway_ids": "",
+      "currency_id": "3",
+      "custom_value1": "",
+      "custom_value2": "",
+      "custom_value3": "",
+      "custom_value4": "",
+      "default_task_rate": 0,
+      "payment_terms": "",
+      "send_reminders": true,
+      "custom_message_dashboard": "",
+      "custom_message_unpaid_invoice": "",
+      "custom_message_paid_invoice": "",
+      "custom_message_unapproved_quote": "",
+      "auto_archive_quote": false,
+      "auto_convert_quote": true,
+      "auto_email_invoice": true,
+      "entity_send_time": 6,
+      "inclusive_taxes": false,
+      "quote_footer": "",
+      "translations": [],
+      "counter_number_applied": "when_saved",
+      "quote_number_applied": "when_saved",
+      "invoice_number_pattern": "",
+      "invoice_number_counter": 11,
+      "recurring_invoice_number_pattern": "",
+      "recurring_invoice_number_counter": 1,
+      "quote_number_pattern": "",
+      "quote_number_counter": 8,
+      "client_number_pattern": "",
+      "client_number_counter": 7,
+      "credit_number_pattern": "",
+      "credit_number_counter": 1,
+      "task_number_pattern": "",
+      "task_number_counter": 1,
+      "expense_number_pattern": "",
+      "expense_number_counter": 1,
+      "recurring_expense_number_pattern": "",
+      "recurring_expense_number_counter": 1,
+      "recurring_quote_number_pattern": "",
+      "recurring_quote_number_counter": 1,
+      "vendor_number_pattern": "",
+      "vendor_number_counter": 1,
+      "ticket_number_pattern": "",
+      "ticket_number_counter": 1,
+      "payment_number_pattern": "",
+      "payment_number_counter": 5,
+      "project_number_pattern": "",
+      "project_number_counter": 1,
+      "purchase_order_number_pattern": "",
+      "purchase_order_number_counter": 1,
+      "shared_invoice_quote_counter": false,
+      "shared_invoice_credit_counter": false,
+      "recurring_number_prefix": "",
+      "reset_counter_frequency_id": "0",
+      "reset_counter_date": "",
+      "counter_padding": 4,
+      "auto_bill": "off",
+      "auto_bill_date": "on_due_date",
+      "invoice_terms": "",
+      "quote_terms": "",
+      "invoice_taxes": 0,
+      "invoice_design_id": "Wpmbk5ezJn",
+      "quote_design_id": "Wpmbk5ezJn",
+      "credit_design_id": "Wpmbk5ezJn",
+      "purchase_order_design_id": "Wpmbk5ezJn",
+      "purchase_order_footer": "",
+      "purchase_order_terms": "",
+      "purchase_order_public_notes": "",
+      "require_purchase_order_signature": false,
+      "invoice_footer": "",
+      "credit_footer": "",
+      "credit_terms": "",
+      "invoice_labels": "",
+      "tax_name1": "",
+      "tax_rate1": 0,
+      "tax_name2": "",
+      "tax_rate2": 0,
+      "tax_name3": "",
+      "tax_rate3": 0,
+      "payment_type_id": "0",
+      "valid_until": "",
+      "show_accept_invoice_terms": false,
+      "show_accept_quote_terms": false,
+      "require_invoice_signature": false,
+      "require_quote_signature": false,
+      "email_sending_method": "default",
+      "gmail_sending_user_id": "0",
+      "reply_to_email": "",
+      "reply_to_name": "",
+      "bcc_email": "",
+      "pdf_email_attachment": false,
+      "ubl_email_attachment": false,
+      "email_style": "light",
+      "email_style_custom": "",
+      "email_subject_invoice": "",
+      "email_subject_quote": "",
+      "email_subject_credit": "",
+      "email_subject_payment": "",
+      "email_subject_payment_partial": "",
+      "email_subject_statement": "",
+      "email_subject_purchase_order": "",
+      "email_template_purchase_order": "",
+      "email_template_invoice": "",
+      "email_template_credit": "",
+      "email_template_quote": "",
+      "email_template_payment": "",
+      "email_template_payment_partial": "",
+      "email_template_statement": "",
+      "email_subject_reminder1": "",
+      "email_subject_reminder2": "",
+      "email_subject_reminder3": "",
+      "email_subject_reminder_endless": "",
+      "email_template_reminder1": "",
+      "email_template_reminder2": "",
+      "email_template_reminder3": "",
+      "email_template_reminder_endless": "",
+      "email_signature": "",
+      "enable_email_markup": true,
+      "email_subject_custom1": "",
+      "email_subject_custom2": "",
+      "email_subject_custom3": "",
+      "email_template_custom1": "",
+      "email_template_custom2": "",
+      "email_template_custom3": "",
+      "enable_reminder1": false,
+      "enable_reminder2": false,
+      "enable_reminder3": false,
+      "enable_reminder_endless": false,
+      "num_days_reminder1": 0,
+      "num_days_reminder2": 0,
+      "num_days_reminder3": 0,
+      "schedule_reminder1": "",
+      "schedule_reminder2": "",
+      "schedule_reminder3": "",
+      "reminder_send_time": 0,
+      "late_fee_amount1": 0,
+      "late_fee_amount2": 0,
+      "late_fee_amount3": 0,
+      "late_fee_percent1": 0,
+      "late_fee_percent2": 0,
+      "late_fee_percent3": 0,
+      "endless_reminder_frequency_id": "0",
+      "late_fee_endless_amount": 0,
+      "late_fee_endless_percent": 0,
+      "client_online_payment_notification": true,
+      "client_manual_payment_notification": true,
+      "name": "Atelier Exemple",
+      "company_logo": "",
+      "website": "",
+      "address1": "",
+      "address2": "",
+      "city": "",
+      "state": "",
+      "postal_code": "",
+      "phone": "",
+      "email": "",
+      "country_id": "250",
+      "vat_number": "",
+      "id_number": "",
+      "page_size": "A4",
+      "page_layout": "portrait",
+      "font_size": 16,
+      "primary_font": "Roboto",
+      "secondary_font": "Roboto",
+      "primary_color": "#298AAB",
+      "secondary_color": "#7081e0",
+      "page_numbering": false,
+      "page_numbering_alignment": "C",
+      "hide_paid_to_date": false,
+      "embed_documents": false,
+      "all_pages_header": false,
+      "all_pages_footer": false,
+      "pdf_variables": {
+        "client_details": [
+          "$client.location_name",
+          "$client.name",
+          "$client.number",
+          "$client.vat_number",
+          "$client.address1",
+          "$client.address2",
+          "$client.city_state_postal",
+          "$client.country",
+          "$client.phone",
+          "$contact.email"
+        ],
+        "vendor_details": [
+          "$vendor.name",
+          "$vendor.number",
+          "$vendor.vat_number",
+          "$vendor.address1",
+          "$vendor.address2",
+          "$vendor.city_state_postal",
+          "$vendor.country",
+          "$vendor.phone",
+          "$contact.email"
+        ],
+        "purchase_order_details": [
+          "$purchase_order.number",
+          "$purchase_order.po_number",
+          "$purchase_order.date",
+          "$purchase_order.due_date",
+          "$purchase_order.total",
+          "$purchase_order.balance_due"
+        ],
+        "company_details": [
+          "$company.name",
+          "$company.id_number",
+          "$company.vat_number",
+          "$company.website",
+          "$company.email",
+          "$company.phone"
+        ],
+        "company_address": [
+          "$company.address1",
+          "$company.address2",
+          "$company.city_state_postal",
+          "$company.country"
+        ],
+        "invoice_details": [
+          "$invoice.number",
+          "$invoice.po_number",
+          "$invoice.date",
+          "$invoice.due_date",
+          "$invoice.total",
+          "$invoice.balance_due",
+          "$invoice.project"
+        ],
+        "quote_details": [
+          "$quote.number",
+          "$quote.po_number",
+          "$quote.date",
+          "$quote.valid_until",
+          "$quote.total",
+          "$quote.project"
+        ],
+        "credit_details": [
+          "$credit.number",
+          "$credit.po_number",
+          "$credit.valid_until",
+          "$credit.date",
+          "$credit.balance",
+          "$credit.total"
+        ],
+        "product_columns": [
+          "$product.item",
+          "$product.description",
+          "$product.unit_cost",
+          "$product.quantity",
+          "$product.discount",
+          "$product.tax",
+          "$product.line_total"
+        ],
+        "product_quote_columns": [
+          "$product.item",
+          "$product.description",
+          "$product.unit_cost",
+          "$product.quantity",
+          "$product.discount",
+          "$product.tax",
+          "$product.line_total"
+        ],
+        "task_columns": [
+          "$task.service",
+          "$task.description",
+          "$task.rate",
+          "$task.hours",
+          "$task.discount",
+          "$task.tax",
+          "$task.line_total"
+        ],
+        "total_columns": [
+          "$net_subtotal",
+          "$subtotal",
+          "$discount",
+          "$custom_surcharge1",
+          "$custom_surcharge2",
+          "$custom_surcharge3",
+          "$custom_surcharge4",
+          "$total_taxes",
+          "$line_taxes",
+          "$total",
+          "$paid_to_date",
+          "$outstanding"
+        ],
+        "statement_invoice_columns": [
+          "$invoice.number",
+          "$invoice.date",
+          "$due_date",
+          "$total",
+          "$balance"
+        ],
+        "statement_payment_columns": [
+          "$invoice.number",
+          "$payment.date",
+          "$method",
+          "$statement_amount"
+        ],
+        "statement_credit_columns": ["$credit.number", "$credit.date", "$total", "$credit.balance"],
+        "statement_details": ["$statement_date", "$balance"],
+        "delivery_note_columns": ["$product.item", "$product.description", "$product.quantity"],
+        "statement_unapplied_columns": [
+          "$payment.number",
+          "$payment.date",
+          "$payment.amount",
+          "$payment.payment_balance"
+        ]
+      },
+      "portal_custom_head": "",
+      "portal_custom_css": "",
+      "portal_custom_footer": "",
+      "portal_custom_js": "",
+      "client_can_register": false,
+      "client_portal_terms": "",
+      "client_portal_privacy_policy": "",
+      "client_portal_enable_uploads": false,
+      "client_portal_allow_under_payment": false,
+      "client_portal_under_payment_minimum": 0,
+      "client_portal_allow_over_payment": false,
+      "use_credits_payment": "off",
+      "hide_empty_columns_on_pdf": false,
+      "email_from_name": "",
+      "auto_archive_invoice_cancelled": false,
+      "vendor_portal_enable_uploads": false,
+      "send_email_on_mark_paid": false,
+      "postmark_secret": "",
+      "custom_sending_email": "",
+      "mailgun_secret": "",
+      "mailgun_domain": "",
+      "mailgun_endpoint": "api.mailgun.net",
+      "brevo_secret": "",
+      "auto_bill_standard_invoices": false,
+      "email_alignment": "center",
+      "show_email_footer": true,
+      "company_logo_size": "",
+      "show_paid_stamp": false,
+      "show_shipping_address": false,
+      "accept_client_input_quote_approval": false,
+      "allow_billable_task_items": true,
+      "show_task_item_description": false,
+      "client_initiated_payments": false,
+      "client_initiated_payments_minimum": 0,
+      "sync_invoice_quote_columns": true,
+      "e_invoice_type": "EN16931",
+      "e_quote_type": "OrderX_Comfort",
+      "default_expense_payment_type_id": "0",
+      "enable_e_invoice": false,
+      "e_invoice_forward_email": "",
+      "e_expense_forward_email": "",
+      "skip_automatic_email_with_peppol": false,
+      "delivery_note_design_id": "",
+      "statement_design_id": "",
+      "payment_receipt_design_id": "",
+      "payment_refund_design_id": "",
+      "classification": "",
+      "payment_email_all_contacts": false,
+      "show_pdfhtml_on_mobile": true,
+      "use_unapplied_payment": "off",
+      "enable_rappen_rounding": false,
+      "task_round_up": true,
+      "task_round_to_nearest": 1,
+      "merge_e_invoice_to_pdf": false,
+      "email_quote_template_reminder1": "",
+      "email_quote_subject_reminder1": "",
+      "enable_quote_reminder1": false,
+      "quote_num_days_reminder1": 0,
+      "quote_schedule_reminder1": "",
+      "quote_late_fee_amount1": 0,
+      "quote_late_fee_percent1": 0,
+      "payment_flow": "smooth",
+      "email_subject_payment_failed": "",
+      "email_template_payment_failed": "",
+      "enable_client_profile_update": true,
+      "preference_product_notes_for_html_view": true,
+      "unlock_invoice_documents_after_payment": false,
+      "ses_secret_key": "",
+      "ses_access_key": "",
+      "ses_region": "",
+      "ses_topic_arn": "",
+      "ses_from_address": "",
+      "france_reporting_enabled": false,
+      "france_reporting_schedule": "ten_day",
+      "global_tag_inheritance": false,
+      "documents_public_by_default": true
+    },
+    "enabled_tax_rates": 0,
+    "enabled_modules": 65535,
+    "updated_at": 1793381007,
+    "archived_at": 0,
+    "created_at": 1793380845,
+    "slack_webhook_url": "",
+    "google_analytics_url": "",
+    "google_analytics_key": "",
+    "matomo_url": "",
+    "matomo_id": "",
+    "enabled_item_tax_rates": 0,
+    "client_can_register": false,
+    "is_large": false,
+    "is_disabled": false,
+    "enable_shop_api": false,
+    "mark_expenses_invoiceable": false,
+    "mark_expenses_paid": false,
+    "invoice_expense_documents": false,
+    "invoice_task_timelog": true,
+    "auto_start_tasks": false,
+    "invoice_task_documents": false,
+    "show_tasks_table": false,
+    "use_credits_payment": "always",
+    "default_task_is_date_based": false,
+    "enable_product_discount": false,
+    "calculate_expense_tax_by_amount": false,
+    "hide_empty_columns_on_pdf": false,
+    "expense_inclusive_taxes": false,
+    "expense_amount_is_pretax": true,
+    "oauth_password_required": false,
+    "session_timeout": 0,
+    "default_password_timeout": 1800000,
+    "invoice_task_datelog": true,
+    "show_task_end_date": false,
+    "markdown_enabled": true,
+    "use_comma_as_decimal_place": false,
+    "report_include_drafts": false,
+    "client_registration_fields": [
+      {
+        "key": "first_name",
+        "required": true,
+        "visible": true
+      },
+      {
+        "key": "last_name",
+        "required": true,
+        "visible": true
+      },
+      {
+        "key": "email",
+        "required": true,
+        "visible": true
+      },
+      {
+        "key": "phone",
+        "required": false,
+        "visible": true
+      },
+      {
+        "key": "password",
+        "required": true,
+        "visible": true
+      },
+      {
+        "key": "name",
+        "required": false,
+        "visible": false
+      },
+      {
+        "key": "website",
+        "required": false,
+        "visible": false
+      },
+      {
+        "key": "address1",
+        "required": false,
+        "visible": false
+      },
+      {
+        "key": "address2",
+        "required": false,
+        "visible": false
+      },
+      {
+        "key": "city",
+        "required": false,
+        "visible": false
+      },
+      {
+        "key": "state",
+        "required": false,
+        "visible": false
+      },
+      {
+        "key": "postal_code",
+        "required": false,
+        "visible": false
+      },
+      {
+        "key": "country_id",
+        "required": false,
+        "visible": false
+      },
+      {
+        "key": "custom_value1",
+        "required": false,
+        "visible": false
+      },
+      {
+        "key": "custom_value2",
+        "required": false,
+        "visible": false
+      },
+      {
+        "key": "custom_value3",
+        "required": false,
+        "visible": false
+      },
+      {
+        "key": "custom_value4",
+        "required": false,
+        "visible": false
+      },
+      {
+        "key": "public_notes",
+        "required": false,
+        "visible": false
+      },
+      {
+        "key": "vat_number",
+        "required": false,
+        "visible": false
+      },
+      {
+        "key": "currency_id",
+        "required": false,
+        "visible": false
+      }
+    ],
+    "convert_rate_to_client": true,
+    "markdown_email_enabled": false,
+    "stop_on_unpaid_recurring": false,
+    "use_quote_terms_on_conversion": false,
+    "stock_notification": true,
+    "inventory_notification_threshold": 0,
+    "track_inventory": false,
+    "enable_applying_payments": false,
+    "enabled_expense_tax_rates": 0,
+    "invoice_task_project": false,
+    "report_include_deleted": false,
+    "invoice_task_lock": false,
+    "convert_payment_currency": false,
+    "convert_expense_currency": false,
+    "notify_vendor_when_paid": false,
+    "invoice_task_hours": false,
+    "calculate_taxes": false,
+    "tax_data": {
+      "seller_subregion": "CA",
+      "version": "eta",
+      "regions": {
+        "US": {
+          "has_sales_above_threshold": false,
+          "tax_all_subregions": false,
+          "subregions": {
+            "AL": {
+              "apply_tax": false,
+              "tax_rate": 4,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "AK": {
+              "apply_tax": false,
+              "tax_rate": 0,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "AZ": {
+              "apply_tax": false,
+              "tax_rate": 5.6,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "AR": {
+              "apply_tax": false,
+              "tax_rate": 6.5,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "CA": {
+              "apply_tax": false,
+              "tax_rate": 7.25,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "CO": {
+              "apply_tax": false,
+              "tax_rate": 2.9,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "CT": {
+              "apply_tax": false,
+              "tax_rate": 6.35,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "DE": {
+              "apply_tax": false,
+              "tax_rate": 0,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "FL": {
+              "apply_tax": false,
+              "tax_rate": 6,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "GA": {
+              "apply_tax": false,
+              "tax_rate": 4,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "HI": {
+              "apply_tax": false,
+              "tax_rate": 4,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "ID": {
+              "apply_tax": false,
+              "tax_rate": 6,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "IL": {
+              "apply_tax": false,
+              "tax_rate": 6.25,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "IN": {
+              "apply_tax": false,
+              "tax_rate": 7,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "IA": {
+              "apply_tax": false,
+              "tax_rate": 6,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "KS": {
+              "apply_tax": false,
+              "tax_rate": 6.5,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "KY": {
+              "apply_tax": false,
+              "tax_rate": 6,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "LA": {
+              "apply_tax": false,
+              "tax_rate": 4.45,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "ME": {
+              "apply_tax": false,
+              "tax_rate": 5.5,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "MD": {
+              "apply_tax": false,
+              "tax_rate": 6,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "MA": {
+              "apply_tax": false,
+              "tax_rate": 6.25,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "MI": {
+              "apply_tax": false,
+              "tax_rate": 6,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "MN": {
+              "apply_tax": false,
+              "tax_rate": 6.875,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "MS": {
+              "apply_tax": false,
+              "tax_rate": 7,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "MO": {
+              "apply_tax": false,
+              "tax_rate": 4.225,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "MT": {
+              "apply_tax": false,
+              "tax_rate": 0,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "NE": {
+              "apply_tax": false,
+              "tax_rate": 5.5,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "NV": {
+              "apply_tax": false,
+              "tax_rate": 6.85,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "NH": {
+              "apply_tax": false,
+              "tax_rate": 0,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "NJ": {
+              "apply_tax": false,
+              "tax_rate": 6.625,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "NM": {
+              "apply_tax": false,
+              "tax_rate": 5.125,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "NY": {
+              "apply_tax": false,
+              "tax_rate": 4,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "NC": {
+              "apply_tax": false,
+              "tax_rate": 4.75,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "ND": {
+              "apply_tax": false,
+              "tax_rate": 5,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "OH": {
+              "apply_tax": false,
+              "tax_rate": 5.75,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "OK": {
+              "apply_tax": false,
+              "tax_rate": 4.5,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "OR": {
+              "apply_tax": false,
+              "tax_rate": 0,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "PA": {
+              "apply_tax": false,
+              "tax_rate": 6,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "RI": {
+              "apply_tax": false,
+              "tax_rate": 7,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "SC": {
+              "apply_tax": false,
+              "tax_rate": 6,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "SD": {
+              "apply_tax": false,
+              "tax_rate": 4.5,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "TN": {
+              "apply_tax": false,
+              "tax_rate": 7,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "TX": {
+              "apply_tax": false,
+              "tax_rate": 6.25,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "UT": {
+              "apply_tax": false,
+              "tax_rate": 5.95,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "VT": {
+              "apply_tax": false,
+              "tax_rate": 6,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "VA": {
+              "apply_tax": false,
+              "tax_rate": 5.3,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "WA": {
+              "apply_tax": false,
+              "tax_rate": 6.5,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "WV": {
+              "apply_tax": false,
+              "tax_rate": 6,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "WI": {
+              "apply_tax": false,
+              "tax_rate": 5,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            },
+            "WY": {
+              "apply_tax": false,
+              "tax_rate": 4,
+              "tax_name": "Sales Tax",
+              "vat_number": ""
+            }
+          }
+        },
+        "EU": {
+          "has_sales_above_threshold": false,
+          "tax_all_subregions": false,
+          "tax_threshold": 10000,
+          "subregions": {
+            "AT": {
+              "tax_rate": 20,
+              "tax_name": "USt",
+              "reduced_tax_rate": 10,
+              "apply_tax": false,
+              "vat_number": ""
+            },
+            "BE": {
+              "tax_rate": 21,
+              "tax_name": "BTW",
+              "reduced_tax_rate": 6,
+              "apply_tax": false,
+              "vat_number": ""
+            },
+            "BG": {
+              "tax_rate": 20,
+              "tax_name": "ДДС",
+              "reduced_tax_rate": 5,
+              "apply_tax": false,
+              "vat_number": ""
+            },
+            "CY": {
+              "tax_rate": 19,
+              "tax_name": "ΦΠΑ",
+              "reduced_tax_rate": 9,
+              "apply_tax": false,
+              "vat_number": ""
+            },
+            "CZ": {
+              "tax_rate": 21,
+              "tax_name": "DPH",
+              "reduced_tax_rate": 15,
+              "apply_tax": false,
+              "vat_number": ""
+            },
+            "DE": {
+              "tax_rate": 19,
+              "tax_name": "MwSt",
+              "reduced_tax_rate": 7,
+              "apply_tax": false,
+              "vat_number": ""
+            },
+            "DK": {
+              "tax_rate": 25,
+              "tax_name": "Moms",
+              "reduced_tax_rate": 0,
+              "apply_tax": false,
+              "vat_number": ""
+            },
+            "EE": {
+              "tax_rate": 20,
+              "tax_name": "KM",
+              "reduced_tax_rate": 9,
+              "apply_tax": false,
+              "vat_number": ""
+            },
+            "ES": {
+              "tax_rate": 21,
+              "tax_name": "IVA",
+              "reduced_tax_rate": 10,
+              "apply_tax": false,
+              "vat_number": ""
+            },
+            "ES-CE": {
+              "tax_rate": 4,
+              "tax_name": "IGIC",
+              "reduced_tax_rate": 4,
+              "apply_tax": false,
+              "vat_number": ""
+            },
+            "ES-ML": {
+              "tax_rate": 4,
+              "tax_name": "IGIC",
+              "reduced_tax_rate": 4,
+              "apply_tax": false,
+              "vat_number": ""
+            },
+            "ES-CN": {
+              "tax_rate": 7,
+              "tax_name": "IGIC",
+              "reduced_tax_rate": 3,
+              "apply_tax": false,
+              "vat_number": ""
+            },
+            "FI": {
+              "tax_rate": 24,
+              "tax_name": "ALV",
+              "reduced_tax_rate": 14,
+              "apply_tax": false,
+              "vat_number": ""
+            },
+            "FR": {
+              "tax_rate": 20,
+              "tax_name": "TVA",
+              "reduced_tax_rate": 5.5,
+              "apply_tax": false,
+              "vat_number": ""
+            },
+            "GR": {
+              "tax_rate": 24,
+              "tax_name": "ΦΠΑ",
+              "reduced_tax_rate": 13,
+              "apply_tax": false,
+              "vat_number": ""
+            },
+            "HR": {
+              "tax_rate": 25,
+              "tax_name": "PDV",
+              "reduced_tax_rate": 5,
+              "apply_tax": false,
+              "vat_number": ""
+            },
+            "HU": {
+              "tax_rate": 27,
+              "tax_name": "ÁFA",
+              "reduced_tax_rate": 5,
+              "apply_tax": false,
+              "vat_number": ""
+            },
+            "IE": {
+              "tax_rate": 23,
+              "tax_name": "VAT",
+              "reduced_tax_rate": 0,
+              "apply_tax": false,
+              "vat_number": ""
+            },
+            "IS": {
+              "tax_rate": 24,
+              "tax_name": "VSK",
+              "reduced_tax_rate": 11,
+              "apply_tax": false,
+              "vat_number": ""
+            },
+            "IT": {
+              "tax_rate": 22,
+              "tax_name": "IVA",
+              "reduced_tax_rate": 10,
+              "apply_tax": false,
+              "vat_number": ""
+            },
+            "LI": {
+              "tax_rate": 7.7,
+              "tax_name": "MWST",
+              "reduced_tax_rate": 2.5,
+              "apply_tax": false,
+              "vat_number": ""
+            },
+            "LT": {
+              "tax_rate": 21,
+              "tax_name": "PVM",
+              "reduced_tax_rate": 9,
+              "apply_tax": false,
+              "vat_number": ""
+            },
+            "LU": {
+              "tax_rate": 17,
+              "tax_name": "TVA",
+              "reduced_tax_rate": 3,
+              "apply_tax": false,
+              "vat_number": ""
+            },
+            "LV": {
+              "tax_rate": 21,
+              "tax_name": "PVN",
+              "reduced_tax_rate": 12,
+              "apply_tax": false,
+              "vat_number": ""
+            },
+            "MT": {
+              "tax_rate": 18,
+              "tax_name": "VAT",
+              "reduced_tax_rate": 5,
+              "apply_tax": false,
+              "vat_number": ""
+            },
+            "NO": {
+              "tax_rate": 25,
+              "tax_name": "MVA",
+              "reduced_tax_rate": 15,
+              "apply_tax": false,
+              "vat_number": ""
+            },
+            "NL": {
+              "tax_rate": 21,
+              "tax_name": "BTW",
+              "reduced_tax_rate": 9,
+              "apply_tax": false,
+              "vat_number": ""
+            },
+            "PL": {
+              "tax_rate": 23,
+              "tax_name": "VAT",
+              "reduced_tax_rate": 8,
+              "apply_tax": false,
+              "vat_number": ""
+            },
+            "PT": {
+              "tax_rate": 23,
+              "tax_name": "IVA",
+              "reduced_tax_rate": 6,
+              "apply_tax": false,
+              "vat_number": ""
+            },
+            "RO": {
+              "tax_rate": 19,
+              "tax_name": "TVA",
+              "reduced_tax_rate": 5,
+              "apply_tax": false,
+              "vat_number": ""
+            },
+            "SE": {
+              "tax_rate": 25,
+              "tax_name": "Moms",
+              "reduced_tax_rate": 12,
+              "apply_tax": false,
+              "vat_number": ""
+            },
+            "SI": {
+              "tax_rate": 22,
+              "tax_name": "DDV",
+              "reduced_tax_rate": 9.5,
+              "apply_tax": false,
+              "vat_number": ""
+            },
+            "SK": {
+              "tax_rate": 20,
+              "tax_name": "DPH",
+              "reduced_tax_rate": 10,
+              "apply_tax": false,
+              "vat_number": ""
+            }
+          }
+        },
+        "AU": {
+          "has_sales_above_threshold": false,
+          "tax_all_subregions": false,
+          "tax_threshold": 75000,
+          "subregions": {
+            "AU": {
+              "apply_tax": false,
+              "tax_rate": 10,
+              "tax_name": "GST",
+              "vat_number": ""
+            }
+          }
+        },
+        "UK": {
+          "has_sales_above_threshold": false,
+          "tax_threshold": 85000,
+          "tax_all_subregions": false,
+          "subregions": {
+            "GB": {
+              "tax_rate": 20,
+              "tax_name": "VAT",
+              "reduced_tax_rate": 5,
+              "apply_tax": false,
+              "vat_number": ""
+            },
+            "GB-NIR": {
+              "tax_rate": 20,
+              "tax_name": "VAT",
+              "reduced_tax_rate": 5,
+              "apply_tax": false,
+              "vat_number": ""
+            },
+            "IM": {
+              "tax_rate": 20,
+              "tax_name": "VAT",
+              "reduced_tax_rate": 5,
+              "apply_tax": false,
+              "vat_number": ""
+            }
+          }
+        },
+        "SG": {
+          "has_sales_above_threshold": false,
+          "tax_all_subregions": false,
+          "tax_threshold": 1000000,
+          "subregions": {
+            "SG": {
+              "tax_rate": 9,
+              "tax_name": "GST",
+              "reduced_tax_rate": 0,
+              "apply_tax": false,
+              "vat_number": ""
+            }
+          }
+        },
+        "AD": {
+          "has_sales_above_threshold": false,
+          "tax_all_subregions": false,
+          "tax_threshold": 40000,
+          "subregions": {
+            "AD": {
+              "tax_rate": 4.5,
+              "tax_name": "IGI",
+              "reduced_tax_rate": 1,
+              "apply_tax": false,
+              "vat_number": ""
+            }
+          }
+        }
+      },
+      "acts_as_sender": false,
+      "acts_as_receiver": false,
+      "model": null
+    },
+    "has_e_invoice_certificate": false,
+    "has_e_invoice_certificate_passphrase": false,
+    "invoice_task_project_header": true,
+    "invoice_task_item_description": true,
+    "origin_tax_data": {},
+    "expense_mailbox": "",
+    "expense_mailbox_active": false,
+    "inbound_mailbox_allow_company_users": false,
+    "inbound_mailbox_allow_vendors": false,
+    "inbound_mailbox_allow_clients": false,
+    "inbound_mailbox_allow_unknown": false,
+    "inbound_mailbox_blacklist": "",
+    "inbound_mailbox_whitelist": "",
+    "smtp_host": "",
+    "smtp_port": 0,
+    "smtp_encryption": "",
+    "smtp_username": "",
+    "smtp_password": "",
+    "smtp_local_domain": "",
+    "smtp_verify_peer": true,
+    "e_invoice": {},
+    "legal_entity_id": null,
+    "quickbooks": null,
+    "enable_modules": false,
+    "documents": []
+  }
+}

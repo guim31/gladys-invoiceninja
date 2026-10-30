@@ -30,6 +30,14 @@ Gladys before reporting a problem.
 
 In scope: the code of this repository and the Docker image it publishes.
 
+The integration holds an Invoice Ninja API token (stored by Gladys in its configuration, sent only
+to the address entered by the user, never logged) and only reads: every request is a GET, or the
+read-only `POST /api/v1/companies/current`. It stores under `/data` the ids of the payments, overdue
+invoices and accepted quotes already announced, and the id of the company: no amount, no name. It
+connects only to the configured Invoice Ninja address, on the local network or on the internet
+(invoicing.co). Client names and amounts reach Gladys (device states, widget, scene variables), never
+the logs.
+
 Out of scope: Gladys Assistant itself (see its
 [security policy](https://github.com/GladysAssistant/Gladys/security/policy)),
 and the third-party services and devices the integration talks to.

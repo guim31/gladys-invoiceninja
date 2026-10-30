@@ -1,61 +1,137 @@
-# Demo Devices Template
+# Invoice Ninja
 
-This is the user documentation of the integration. Gladys re-hosts this file
-and shows a permanent **Documentation** link to it in the Configuration screen
-(in the user's language, with English as the fallback) — it is when
-configuring that the user needs it most. Keep the short onboarding hints in
-the `section` blocks of the manifest `config_schema`; put the long
-step-by-step (screenshots, troubleshooting…) here.
+Follow your invoicing from Gladys: the unpaid and overdue invoices, the money received this month and the
+pending quotes of your [Invoice Ninja](https://invoiceninja.com), self-hosted or on the hosted service
+invoicing.co. Get told when a payment comes in, when an invoice falls overdue or when a client accepts a quote.
+
+The integration only reads: it never writes to your invoices, never sends an email, never creates anything. It
+talks to the Invoice Ninja API with a token you create. Not affiliated with Invoice Ninja.
 
 ## What you get
 
-Six demo devices show up after installation: a weather station (real data
-from Open-Meteo), a switch, a dimmable light, a smart plug with power
-metering, a motion sensor and a camera.
+- One **device for your company**: unpaid invoices (count and amount), overdue invoices (count and amount),
+  money received this month and pending quotes, with their history.
+- A **dashboard widget**: the overdue invoices with their days late, the latest payments and the totals, each
+  block and the amounts hideable.
+- Three **scene triggers**: payment received, invoice overdue, quote accepted.
+- A **scene action**: a summary as a sentence to send by message or have read aloud, and its numbers.
+
+## Requirements
+
+- Gladys Assistant 5.1 or later.
+- Invoice Ninja 5 (tested with 5.13 self-hosted), reachable from the Gladys host, or an account on invoicing.co.
+  Invoice Ninja 4 has another API and is not supported.
+- An API token of the company to follow. On invoicing.co, check that your plan includes the API.
+
+Tested against a real self-hosted Invoice Ninja 5.13 with fictitious clients, invoices, payments and quotes; not
+tested on invoicing.co: feedback welcome.
 
 ## Configuration
 
-1. Open the **Configuration** tab of the integration.
-2. Set the **latitude** and **longitude** the demo weather station should
-   observe (they default to Paris), and pick your temperature unit.
-   The **refresh interval** sets how often the weather station and the
-   plug's power are read: every 5 minutes by default, every minute at most.
-3. Save: the devices appear in the **Discovery** tab, ready to be added.
+### Creating an API token
 
-The **Prefer the local connection** toggle drives the demo plug: it reports
-the channel it actually uses as a badge (local or cloud), with an orange dot
-when it runs degraded (local refused, cloud fallback).
+In Invoice Ninja, open **Settings → Account Management → API Tokens**, then **New Token**. Give it a name (for
+example "Gladys"), save, and copy the token shown. A token belongs to one company: with several companies,
+create it while the one to follow is selected.
 
-## Actions
+### Settings
 
-- **Test the weather provider** — performs a live request to Open-Meteo and
-  shows the current temperature and humidity under the button.
-- **Identify a device** — pick one of your devices in the list and it will
-  signal itself (the demo light "blinks" in the logs).
+| Setting                  | What it does                                                                               |
+| ------------------------ | ------------------------------------------------------------------------------------------ |
+| Address of Invoice Ninja | The address you open Invoice Ninja with, e.g. `https://invoices.example.com`               |
+| API token                | The token created above. Stored by Gladys, never written to the logs                       |
+| Refresh interval         | How often Invoice Ninja is read: 5 to 60 minutes, 15 by default                            |
+| Language of the texts    | Names of the features (at their creation) and sentences sent to the scenes; French default |
 
-## Scenes
+For the hosted service, the address is `https://invoicing.co`. Click **Test the connection**: the answer says how
+many unpaid invoices, overdue invoices and pending quotes were found, or what is wrong. Then open the **Discover**
+tab and add the company.
 
-The integration adds its own cards to the scene editor (Gladys 5.1 or
-later), under the **Integrations** category:
+## Device
 
-- **Motion detected** (trigger) — starts the scene when a demo motion sensor
-  sees something move. Optionally pick the sensor and what moved (person,
-  animal); left empty, any detection matches. The following actions can
-  read what moved with `{{triggerEvent.data.target}}`.
-- **Identify a device** (action) — makes the chosen device signal itself.
-  It returns whether the device could signal itself, so the following
-  actions can depend on it.
+| Feature          | Meaning                                                                 |
+| ---------------- | ----------------------------------------------------------------------- |
+| Unpaid invoices  | Invoices sent or partially paid with a balance left                     |
+| Amount unpaid    | The sum of their balances                                               |
+| Overdue invoices | Those whose due date (or the due date of their partial payment) is past |
+| Amount overdue   | The sum of their balances                                               |
+| Paid this month  | Payments dated this month, refunds taken off                            |
+| Pending quotes   | Quotes sent, neither accepted nor expired                               |
 
-## Dashboard
+Drafts, cancelled and deleted invoices, and the records of deleted clients, are left out, as in the dashboard of
+Invoice Ninja. Amounts are in the currency of the company: an invoice or a payment in another currency is
+converted with the exchange rate Invoice Ninja recorded on it. Euro, US dollar and pound sterling show their
+symbol in Gladys; another currency is written after the name of the device. An invoice is overdue the day after
+its due date, in the time zone of Gladys.
 
-Add the **Demo status** widget to a dashboard: it shows the live
-temperature of the weather station and the power of the office plug, the
-connection the plug currently uses (orange when degraded) and the observed
-location. Its **Identify the light** button makes the demo light signal
-itself.
+## Dashboard widget
+
+Add the **Invoice Ninja overview** widget to a dashboard. It shows four tiles (overdue invoices, amount overdue,
+amount unpaid, paid this month), the overdue invoices with their client, due date, balance and days late (5 at
+most, the most overdue first) and the latest payments (5 at most). Its settings hide the amounts (only counts and
+dates are left, for a dashboard everyone sees), the tiles, the overdue invoices or the payments. It works as soon
+as the integration reads Invoice Ninja, even before the device is added.
+
+## Scene triggers
+
+| Trigger          | When                                                                      | Variables                                                                   |
+| ---------------- | ------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| Payment received | A new completed payment is recorded, by hand or through a payment gateway | client, amount, currency, payment number, date, sentence                    |
+| Invoice overdue  | An unpaid invoice passes its due date                                     | invoice number, client, amount due, currency, due date, days late, sentence |
+| Quote accepted   | A quote is approved by the client or converted to an invoice              | quote number, client, amount, currency, sentence                            |
+
+What exists at the first reading is the starting point: installing the integration fires nothing for past
+payments or invoices already overdue. Each event is sent once; an invoice paid off then overdue again later fires
+again. What was already told is kept in the integration's data, so a restart fires nothing twice. A trigger is
+noticed at the next reading, so up to one refresh interval later.
+
+## Scene action
+
+**Invoice Ninja: read the summary** answers a sentence such as "3 facture(s) impayée(s) pour 3 980,50 €, dont 2
+en retard pour 1 480,50 €. Encaissé ce mois-ci : 500,00 €. 4 devis en attente." and the same numbers as
+separate outputs. It reads Invoice Ninja again if the last reading is older than the refresh interval. When the
+server does not answer, the last values are used.
+
+## Scene examples
+
+- **A payment arrives**: trigger "Invoice Ninja: payment received", then "Send a message" with the variable
+  _Sentence to send or read_.
+- **Monday morning**: every Monday at 8:00, "Invoice Ninja: read the summary", then send its sentence by
+  message or have it read aloud by a speaker.
+- **Reminder**: trigger "Invoice Ninja: invoice overdue", then send a message "Remind the client" with the
+  invoice number and the client.
+- **Good news**: trigger "Invoice Ninja: quote accepted", then light a lamp in green for a minute.
+
+## Privacy and data
+
+- The token stays in the configuration of Gladys; the integration sends it only to the address you entered.
+- The logs of the integration never hold an amount, a client name, the token or the address: only counts,
+  error codes and invoice numbers.
+- Stored under the `/data` volume of the integration: the ids of the payments, overdue invoices and accepted
+  quotes already told, and the id of the company. No amount, no name.
+- Client names and amounts are shown by the widget and passed to the scenes you build, inside Gladys only.
 
 ## Troubleshooting
 
-The integration logs everything it does: check the integration logs from the
-Gladys UI (or `docker logs` on the host) with `LOG_LEVEL=debug` for the full
-detail.
+| Message                                          | What to do                                                                                                                       |
+| ------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------- |
+| Invoice Ninja refuses the API token              | Create a new token, copy it whole, check it belongs to the right company                                                         |
+| No Invoice Ninja 5 API at this address           | Enter the address you open Invoice Ninja with, without `/api/v1`; Invoice Ninja 4 is not supported                               |
+| Invoice Ninja does not answer                    | Check that the Gladys host reaches the address (network, VPN, firewall, HTTPS certificate)                                       |
+| The address of Invoice Ninja redirects elsewhere | Enter the address the browser ends on, often with `https://`: redirects are never followed, so the token is never sent elsewhere |
+| Invoice Ninja limits the requests                | Choose a longer refresh interval                                                                                                 |
+| Invoice Ninja answers with an error              | See the logs of Invoice Ninja; the last values are kept meanwhile                                                                |
+
+The detail of each reading is written in the logs with `LOG_LEVEL=debug`.
+
+## Limits
+
+- One company per token: for several companies, one token per company is needed, and one installation follows
+  one company.
+- Each reading makes six requests to Invoice Ninja (more when there are over 100 unpaid invoices or payments this
+  month); the hosted service throttles its API, so keep the interval reasonable.
+- A payment recorded as pending (bank transfer awaiting confirmation) and completed later, after more than 10 new
+  payments, is not announced.
+- The "Prefer the local connection" toggle of Gladys has no effect: there is one address. The device shows
+  "local" for a self-hosted server and "cloud" for invoicing.co.
+- Read only: no invoice can be created, sent or marked paid from Gladys.

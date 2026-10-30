@@ -31,16 +31,20 @@ pushing.
 ## Architecture
 
 ```
-index.js                          SDK wiring only: handlers registered before connect()
-src/devices/index.js              registry of the device blueprints + dispatch helpers
-src/devices/<type>.js             one device type per file (buildDevice, onPoll, onSetValue...)
-src/scenes.js                     scene action handlers (manifest `scene_actions`)
-src/widgets.js                    dashboard widget handlers (manifest `widgets`)
+index.js                          SDK wiring only, through src/app.js
+src/app.js                        registers every handler (also used by the tests)
 src/config.js                     DEFAULT_CONFIG (mirrors the manifest defaults) + normalization
-src/weather.js                    example driver (Open-Meteo)
+src/invoiceninja.js               API client (fetch) + the snapshot of one reading
+src/currencies.js                 Invoice Ninja currency ids -> ISO codes
+src/monitor.js                    own timer, device and states, scene triggers, status
+src/devices.js                    the company device and its states
+src/widgets.js                    the `overview` dashboard widget
+src/actions.js                    scene action `read_summary`, config action `check_now`
+src/store.js                      trigger state under /data
+src/texts.js                      texts in en/fr/de/es, number and date formats
 gladys-assistant-integration.json manifest: name, config_schema, actions, image...
-docs/en.md, docs/fr.md            user documentation, re-hosted by Gladys (mandatory)
-test/                             node --test, against the SDK's fake Gladys (integration-sdk/testing)
+docs/{en,fr,de,es}.md             user documentation, re-hosted by Gladys (mandatory)
+test/                             node --test, SDK fake Gladys + fake Invoice Ninja (fixtures)
 .github/scripts/release.mjs       release helpers (manifest bump, changelog), tested in test/
 ```
 
@@ -251,3 +255,31 @@ long, et sur un « Sie »/« Ihr… » de politesse en allemand. Le store exige 
 - Docs `en`, `fr`, `de`, `es` avec les mêmes sections.
 - Chauffe, ouverture, sécurité : ne rien rendre pilotable « comme un thermostat » ou par un assistant
   vocal quand une erreur serait dangereuse (leçon d'OctoPrint).
+
+## Invoice Ninja (cette intégration)
+
+- **API v5**, `<adresse>/api/v1/...`, en-têtes `X-API-TOKEN` et `X-Requested-With: XMLHttpRequest`. Six
+  requêtes par lecture (voir l'en-tête de `src/invoiceninja.js`). Testé pour de vrai contre
+  `invoiceninja/invoiceninja-debian:5` (5.13.51) + MariaDB 11 + nginx (l'image ne sert que php-fpm sur 9000) ;
+  fixtures enregistrées le 30/10/2026 dans `test/fixtures/invoiceninja/`.
+- **Entreprise du jeton** : `POST /api/v1/companies/current` (pas de GET ; `GET /companies` liste toutes les
+  entreprises du compte). La devise est un id (`settings.currency_id`) : table figée dans `src/currencies.js`
+  (`/api/v1/statics` pèse ~300 Ko).
+- **Filtres** : `client_status=unpaid` = statuts 2 et 3 seulement (pas de brouillon) ; `client_status=sent`
+  des devis exclut les expirés ; `approved,converted` = statut 3 **ou** `invoice_id` non nul. Sans
+  `status=active,archived` les supprimés reviennent ; sans `without_deleted_clients=true`, les factures et
+  paiements d'un client supprimé restent (`is_deleted` reste `false` sur eux).
+- **Taux de change**, comme `ChartQueries.php` : facture `balance / exchange_rate`, paiement
+  `(amount - refunded) * exchange_rate` (Invoice Ninja lui-même n'est pas cohérent partout).
+- Un chemin inconnu répond **200 en HTML** : tester le `content-type`. Jeton faux ou absent : 403
+  `{"message":"Invalid token"}`.
+- **Déclencheurs** : point de départ à la première lecture d'une entreprise ; paiements et devis par ids vus +
+  horodatage du point de départ (`created_at` / `updated_at`), qui **ne bouge pas** (un paiement en attente
+  validé plus tard reste une nouvelle) ; factures en retard par ensemble d'ids, remplacé à chaque lecture.
+- Le bouton « Préférer la connexion locale » (transports `local` + `cloud`) n'a pas d'effet : une seule
+  adresse ; la pastille de l'appareil dit `cloud` pour invoicing.co, `local` sinon.
+- **Redirections jamais suivies** (`redirect: 'manual'`) : fetch (undici) garde `X-API-TOKEN` sur une redirection
+  vers un autre hôte et change le POST en GET (405). Un 3xx devient le statut `redirected`. invoicing.co est
+  toujours interrogé en https.
+- **Devis acceptés** : nouveau si le devis était en attente à la lecture précédente (liste complète des devis
+  `sent`, gardée sous `/data`) ou créé depuis le point de départ ; jamais un vieux devis accepté puis modifié.

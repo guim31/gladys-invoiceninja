@@ -1,67 +1,144 @@
-# Template de démonstration
+# Invoice Ninja
 
-Ceci est la documentation utilisateur de l'intégration. Gladys ré-héberge ce
-fichier et affiche un lien **Documentation** permanent vers lui dans l'écran
-de configuration (dans la langue de l'utilisateur, avec l'anglais en repli) —
-c'est au moment de configurer que l'utilisateur en a le plus besoin. Gardez
-les courtes indications d'accueil dans les blocs `section` du `config_schema`
-du manifest ; mettez ici le pas-à-pas détaillé (captures d'écran, dépannage…).
+Suivez votre facturation depuis Gladys : les factures impayées et en retard, l'argent encaissé ce mois-ci et les
+devis en attente de votre [Invoice Ninja](https://invoiceninja.com), auto-hébergé ou sur le service hébergé
+invoicing.co. Soyez prévenu quand un paiement arrive, quand une facture passe en retard ou quand un client
+accepte un devis.
+
+L'intégration ne fait que lire : elle n'écrit jamais dans vos factures, n'envoie aucun e-mail, ne crée rien. Elle
+interroge l'API d'Invoice Ninja avec un jeton que vous créez. Non affiliée à Invoice Ninja.
 
 ## Ce que vous obtenez
 
-Six appareils de démonstration apparaissent après l'installation : une
-station météo (vraies données Open-Meteo), un interrupteur, une lampe
-variable, une prise connectée avec mesure de puissance, un détecteur de
-mouvement et une caméra.
+- Un **appareil pour votre entreprise** : factures impayées (nombre et montant), factures en retard (nombre et
+  montant), argent encaissé ce mois-ci et devis en attente, avec leur historique.
+- Un **widget de tableau de bord** : les factures en retard avec leurs jours de retard, les derniers paiements et
+  les totaux, chaque bloc et les montants pouvant être masqués.
+- Trois **déclencheurs de scène** : paiement reçu, facture en retard, devis accepté.
+- Une **action de scène** : un résumé en une phrase à envoyer par message ou à faire lire à voix haute, et ses
+  chiffres.
+
+## Prérequis
+
+- Gladys Assistant 5.1 ou plus récent.
+- Invoice Ninja 5 (testé avec la 5.13 auto-hébergée), joignable depuis la machine de Gladys, ou un compte sur
+  invoicing.co. Invoice Ninja 4 a une autre API et n'est pas pris en charge.
+- Un jeton d'API de l'entreprise à suivre. Sur invoicing.co, vérifiez que votre formule comprend l'API.
+
+Testé sur un vrai Invoice Ninja 5.13 auto-hébergé avec des clients, factures, paiements et devis fictifs ; pas
+testé sur invoicing.co : vos retours sont les bienvenus.
 
 ## Configuration
 
-1. Ouvrez l'onglet **Configuration** de l'intégration.
-2. Renseignez la **latitude** et la **longitude** que la station météo de
-   démonstration doit observer (Paris par défaut), et choisissez votre unité
-   de température. L'**intervalle de rafraîchissement** règle la fréquence
-   de lecture de la station météo et de la puissance de la prise : toutes
-   les 5 minutes par défaut, toutes les minutes au plus.
-3. Enregistrez : les appareils apparaissent dans l'onglet **Découverte**,
-   prêts à être ajoutés.
+### Créer un jeton d'API
 
-Le réglage **Préférer la connexion locale** pilote la prise de
-démonstration : elle affiche en badge le canal réellement utilisé (local ou
-cloud), avec un point orange quand elle fonctionne en mode dégradé (local
-refusé, bascule cloud).
+Dans Invoice Ninja, ouvrez **Paramètres → Gestion du compte → Jetons d'API**, puis **Nouveau jeton**. Donnez-lui
+un nom (par exemple « Gladys »), enregistrez et copiez le jeton affiché. Un jeton appartient à une entreprise :
+si vous en avez plusieurs, créez-le en ayant sélectionné celle à suivre.
 
-## Actions
+### Réglages
 
-- **Tester le fournisseur météo** — effectue une requête en direct vers
-  Open-Meteo et affiche la température et l'humidité actuelles sous le
-  bouton.
-- **Identifier un appareil** — choisissez un de vos appareils dans la liste
-  et il se signale (la lampe de démonstration « clignote » dans les logs).
+| Réglage                  | Rôle                                                                                            |
+| ------------------------ | ----------------------------------------------------------------------------------------------- |
+| Adresse d'Invoice Ninja  | L'adresse à laquelle vous ouvrez Invoice Ninja, par ex. `https://factures.example.com`          |
+| Jeton d'API              | Le jeton créé ci-dessus. Gardé par Gladys, jamais écrit dans les journaux                       |
+| Fréquence de mise à jour | Fréquence de lecture d'Invoice Ninja : de 5 à 60 minutes, 15 par défaut                         |
+| Langue des textes        | Noms des fonctionnalités (à leur création) et phrases envoyées aux scènes ; français par défaut |
 
-## Scènes
+Pour le service hébergé, l'adresse est `https://invoicing.co`. Cliquez sur **Tester la connexion** : la réponse
+donne le nombre de factures impayées, de factures en retard et de devis en attente trouvés, ou ce qui ne va pas.
+Ouvrez ensuite l'onglet **Découverte** et ajoutez l'entreprise.
 
-L'intégration ajoute ses propres cartes à l'éditeur de scènes (Gladys 5.1
-ou plus récent), dans la catégorie **Intégrations** :
+## Appareil
 
-- **Mouvement détecté** (déclencheur) — lance la scène quand un détecteur
-  de démonstration voit bouger quelque chose. Choisissez éventuellement le
-  détecteur et ce qui a bougé (personne, animal) ; laissés vides, toute
-  détection correspond. Les actions suivantes peuvent lire ce qui a bougé
-  avec `{{triggerEvent.data.target}}`.
-- **Identifier un appareil** (action) — fait se signaler l'appareil choisi.
-  Elle indique si l'appareil a pu se signaler, pour que les actions
-  suivantes puissent en dépendre.
+| Fonctionnalité      | Signification                                                     |
+| ------------------- | ----------------------------------------------------------------- |
+| Factures impayées   | Factures envoyées ou partiellement payées avec un solde restant   |
+| Montant impayé      | La somme de leurs soldes                                          |
+| Factures en retard  | Celles dont l'échéance (ou l'échéance de leur acompte) est passée |
+| Montant en retard   | La somme de leurs soldes                                          |
+| Encaissé ce mois-ci | Les paiements datés de ce mois, remboursements déduits            |
+| Devis en attente    | Les devis envoyés, ni acceptés ni expirés                         |
 
-## Tableau de bord
+Les brouillons, les factures annulées ou supprimées et les données des clients supprimés sont laissés de côté,
+comme dans le tableau de bord d'Invoice Ninja. Les montants sont dans la devise de l'entreprise : une facture ou
+un paiement dans une autre devise est converti avec le taux de change qu'Invoice Ninja a enregistré dessus.
+L'euro, le dollar américain et la livre sterling s'affichent avec leur symbole dans Gladys ; une autre devise est
+écrite après le nom de l'appareil. Une facture est en retard le lendemain de son échéance, dans le fuseau horaire
+de Gladys.
 
-Ajoutez le widget **État de la démo** à un tableau de bord : il affiche en
-direct la température de la station météo et la puissance de la prise du
-bureau, la connexion utilisée par la prise (en orange si dégradée) et la
-position observée. Son bouton **Identifier la lampe** fait se signaler la
-lampe de démonstration.
+## Widget de tableau de bord
+
+Ajoutez le widget **Aperçu Invoice Ninja** à un tableau de bord. Il montre quatre tuiles (factures en retard,
+montant en retard, montant impayé, encaissé ce mois-ci), les factures en retard avec leur client, leur échéance,
+leur solde et leurs jours de retard (5 au plus, les plus anciennes d'abord) et les derniers paiements (5 au plus).
+Ses réglages masquent les montants (il ne reste que des nombres et des dates, pour un tableau de bord vu par
+tous), les tuiles, les factures en retard ou les paiements. Il fonctionne dès que l'intégration lit Invoice Ninja,
+même avant l'ajout de l'appareil.
+
+## Déclencheurs de scène
+
+| Déclencheur       | Quand                                                                      | Variables                                                                        |
+| ----------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| Paiement reçu     | Un nouveau paiement abouti est enregistré, à la main ou par une passerelle | client, montant, devise, numéro du paiement, date, phrase                        |
+| Facture en retard | Une facture impayée dépasse son échéance                                   | numéro de facture, client, montant dû, devise, échéance, jours de retard, phrase |
+| Devis accepté     | Un devis est approuvé par le client ou converti en facture                 | numéro du devis, client, montant, devise, phrase                                 |
+
+Ce qui existe à la première lecture sert de point de départ : installer l'intégration ne déclenche rien pour les
+paiements passés ni pour les factures déjà en retard. Chaque événement est envoyé une fois ; une facture soldée
+puis de nouveau en retard plus tard déclenche de nouveau. Ce qui a déjà été annoncé est gardé dans les données de
+l'intégration : un redémarrage ne déclenche rien deux fois. Un événement est vu à la lecture suivante, donc
+jusqu'à une période de mise à jour plus tard.
+
+## Action de scène
+
+**Invoice Ninja : lire le résumé** répond une phrase comme « 3 facture(s) impayée(s) pour 3 980,50 €, dont 2 en
+retard pour 1 480,50 €. Encaissé ce mois-ci : 500,00 €. 4 devis en attente. » et les mêmes chiffres en sorties
+séparées. Elle relit Invoice Ninja si la dernière lecture date de plus d'une période de mise à jour. Quand le
+serveur ne répond pas, les dernières valeurs servent.
+
+## Exemples de scènes
+
+- **Un paiement arrive** : déclencheur « Invoice Ninja : paiement reçu », puis « Envoyer un message » avec la
+  variable _Phrase à envoyer ou à lire_.
+- **Lundi matin** : chaque lundi à 8 h, « Invoice Ninja : lire le résumé », puis envoyez sa phrase par message ou
+  faites-la lire par une enceinte.
+- **Relance** : déclencheur « Invoice Ninja : facture en retard », puis un message « Relancer le client » avec le
+  numéro de facture et le client.
+- **Bonne nouvelle** : déclencheur « Invoice Ninja : devis accepté », puis une lampe en vert pendant une minute.
+
+## Confidentialité et données
+
+- Le jeton reste dans la configuration de Gladys ; l'intégration ne l'envoie qu'à l'adresse que vous avez
+  indiquée.
+- Les journaux de l'intégration ne contiennent jamais de montant, de nom de client, le jeton ni l'adresse :
+  seulement des nombres, des codes d'erreur et des numéros de facture.
+- Gardé dans le volume `/data` de l'intégration : les identifiants des paiements, factures en retard et devis
+  acceptés déjà annoncés, et l'identifiant de l'entreprise. Aucun montant, aucun nom.
+- Les noms des clients et les montants sont montrés par le widget et passés aux scènes que vous créez, dans Gladys
+  seulement.
 
 ## Dépannage
 
-L'intégration journalise tout ce qu'elle fait : consultez les logs de
-l'intégration depuis l'interface Gladys (ou `docker logs` sur l'hôte) avec
-`LOG_LEVEL=debug` pour le détail complet.
+| Message                                     | Que faire                                                                                                                                          |
+| ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Invoice Ninja refuse le jeton d'API         | Créez un nouveau jeton, copiez-le en entier, vérifiez qu'il appartient à la bonne entreprise                                                       |
+| Pas d'API Invoice Ninja 5 à cette adresse   | Indiquez l'adresse à laquelle vous ouvrez Invoice Ninja, sans `/api/v1` ; Invoice Ninja 4 n'est pas pris en charge                                 |
+| Invoice Ninja ne répond pas                 | Vérifiez que la machine de Gladys joint l'adresse (réseau, VPN, pare-feu, certificat HTTPS)                                                        |
+| L'adresse d'Invoice Ninja redirige ailleurs | Indiquez l'adresse où arrive le navigateur, souvent en `https://` : les redirections ne sont jamais suivies, le jeton ne part donc jamais ailleurs |
+| Invoice Ninja limite les requêtes           | Choisissez une fréquence de mise à jour plus longue                                                                                                |
+| Invoice Ninja répond par une erreur         | Consultez les journaux d'Invoice Ninja ; les dernières valeurs sont gardées en attendant                                                           |
+
+Le détail de chaque lecture s'écrit dans les journaux avec `LOG_LEVEL=debug`.
+
+## Limites
+
+- Une entreprise par jeton : pour plusieurs entreprises, il faut un jeton par entreprise, et une installation suit
+  une entreprise.
+- Chaque lecture fait six requêtes à Invoice Ninja (davantage au-delà de 100 factures impayées ou paiements dans
+  le mois) ; le service hébergé limite son API, gardez donc une fréquence raisonnable.
+- Un paiement enregistré en attente (virement à confirmer) et validé plus tard, après plus de 10 nouveaux
+  paiements, n'est pas annoncé.
+- Le réglage « Préférer la connexion locale » de Gladys n'a pas d'effet : il n'y a qu'une adresse. L'appareil
+  indique « local » pour un serveur auto-hébergé et « cloud » pour invoicing.co.
+- Lecture seule : aucune facture ne peut être créée, envoyée ou marquée payée depuis Gladys.

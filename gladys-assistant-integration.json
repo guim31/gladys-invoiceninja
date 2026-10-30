@@ -1,177 +1,625 @@
 {
   "manifest_version": 1,
   "type": "device",
-  "name": "Demo Devices Template",
+  "name": "Invoice Ninja",
   "description": {
-    "en": "Starter template showing sensors, a switch, a dimmable light and a smart plug.",
-    "fr": "Template de démarrage : capteurs, interrupteur, lampe variable et prise connectée."
+    "en": "Unpaid and overdue invoices, payments and quotes of your Invoice Ninja in Gladys.",
+    "fr": "Factures impayées et en retard, paiements et devis de votre Invoice Ninja dans Gladys.",
+    "de": "Offene und überfällige Rechnungen, Zahlungen und Angebote deines Invoice Ninja in Gladys.",
+    "es": "Facturas impagadas y vencidas, pagos y presupuestos de su Invoice Ninja en Gladys."
   },
   "version": "1.0.0",
-  "docker_image": "ghcr.io/gladysassistant/integration-template-js:1.0.0",
+  "docker_image": "ghcr.io/guim31/gladys-invoiceninja:1.0.0",
   "gladys_version": ">=5.1.0",
-  "cover_image": "https://raw.githubusercontent.com/GladysAssistant/integration-template-js/master/cover.png",
-  "categories": ["lighting", "security", "environment"],
+  "cover_image": "https://raw.githubusercontent.com/guim31/gladys-invoiceninja/main/cover.png",
+  "categories": ["services"],
   "transports": ["local", "cloud"],
   "config_schema": [
     {
       "key": "intro",
       "type": "section",
-      "label": { "en": "Getting started", "fr": "Pour commencer" },
+      "label": {
+        "en": "Connection to Invoice Ninja",
+        "fr": "Connexion à Invoice Ninja",
+        "de": "Verbindung zu Invoice Ninja",
+        "es": "Conexión con Invoice Ninja"
+      },
       "description": {
-        "en": "The demo weather station reads real data from the free Open-Meteo API: pick the coordinates to observe. No account, no API key.",
-        "fr": "La station météo de démonstration lit de vraies données via l'API gratuite Open-Meteo : choisissez les coordonnées à observer. Pas de compte, pas de clé d'API."
+        "en": "Enter the address of your Invoice Ninja 5 (or https://invoicing.co for the hosted service) and an API token: Settings → Account Management → API Tokens. Then add the company in the Discover tab.",
+        "fr": "Indiquez l'adresse de votre Invoice Ninja 5 (ou https://invoicing.co pour le service hébergé) et un jeton d'API : Paramètres → Gestion du compte → Jetons d'API. Ajoutez ensuite l'entreprise dans l'onglet Découverte.",
+        "de": "Gib die Adresse deines Invoice Ninja 5 (oder https://invoicing.co für den gehosteten Dienst) und ein API-Token an: Einstellungen → Kontoverwaltung → API-Tokens. Füge dann das Unternehmen im Tab „Entdecken“ hinzu.",
+        "es": "Indique la dirección de su Invoice Ninja 5 (o https://invoicing.co para el servicio alojado) y un token de API: Ajustes → Gestión de la cuenta → Tokens de API. Después añada la empresa en la pestaña Descubrir."
       },
       "links": [
         {
-          "url": "https://open-meteo.com/en/docs",
-          "label": { "en": "Open-Meteo documentation", "fr": "Documentation Open-Meteo" }
+          "url": "https://github.com/guim31/gladys-invoiceninja/blob/main/docs/en.md",
+          "label": {
+            "en": "Setup guide",
+            "fr": "Guide d'installation",
+            "de": "Installationsanleitung",
+            "es": "Guía de instalación"
+          }
+        },
+        {
+          "url": "https://invoiceninja.github.io/docs/api-reference/invoice-ninja-api-reference",
+          "label": {
+            "en": "Invoice Ninja API",
+            "fr": "API d'Invoice Ninja",
+            "de": "Invoice-Ninja-API",
+            "es": "API de Invoice Ninja"
+          }
         }
       ]
     },
     {
-      "key": "latitude",
-      "type": "number",
-      "label": { "en": "Latitude", "fr": "Latitude" },
-      "description": {
-        "en": "Latitude used for the demo weather sensor.",
-        "fr": "Latitude utilisée par le capteur météo de démonstration."
+      "key": "url",
+      "type": "string",
+      "label": {
+        "en": "Address of Invoice Ninja",
+        "fr": "Adresse d'Invoice Ninja",
+        "de": "Adresse von Invoice Ninja",
+        "es": "Dirección de Invoice Ninja"
       },
-      "placeholder": { "en": "e.g. 48.8566", "fr": "ex. 48.8566" },
+      "description": {
+        "en": "The address you open Invoice Ninja with, reachable from Gladys.",
+        "fr": "L'adresse à laquelle vous ouvrez Invoice Ninja, joignable depuis Gladys.",
+        "de": "Die Adresse, unter der du Invoice Ninja öffnest, von Gladys aus erreichbar.",
+        "es": "La dirección con la que abre Invoice Ninja, accesible desde Gladys."
+      },
+      "placeholder": {
+        "en": "e.g. https://invoices.example.com",
+        "fr": "ex. https://factures.example.com",
+        "de": "z. B. https://rechnungen.example.com",
+        "es": "p. ej. https://facturas.example.com"
+      },
       "required": true,
-      "default": 48.8566,
-      "min": -90,
-      "max": 90
+      "default": ""
     },
     {
-      "key": "longitude",
-      "type": "number",
-      "label": { "en": "Longitude", "fr": "Longitude" },
-      "description": {
-        "en": "Longitude used for the demo weather sensor.",
-        "fr": "Longitude utilisée par le capteur météo de démonstration."
+      "key": "api_token",
+      "type": "secret",
+      "label": {
+        "en": "API token",
+        "fr": "Jeton d'API",
+        "de": "API-Token",
+        "es": "Token de API"
       },
-      "placeholder": { "en": "e.g. 2.3522", "fr": "ex. 2.3522" },
-      "required": true,
-      "default": 2.3522,
-      "min": -180,
-      "max": 180
+      "description": {
+        "en": "Read only: the integration never writes to your invoices. Stored by Gladys, never written to the logs.",
+        "fr": "Lecture seule : l'intégration n'écrit jamais dans vos factures. Gardé par Gladys, jamais écrit dans les journaux.",
+        "de": "Nur lesend: die Integration schreibt nie in deine Rechnungen. Von Gladys gespeichert, nie in die Protokolle geschrieben.",
+        "es": "Solo lectura: la integración nunca escribe en sus facturas. Guardado por Gladys, nunca escrito en los registros."
+      },
+      "required": true
     },
     {
-      "key": "unit",
+      "key": "refresh_interval",
       "type": "select",
-      "label": { "en": "Temperature unit", "fr": "Unité de température" },
+      "label": {
+        "en": "Refresh interval",
+        "fr": "Fréquence de mise à jour",
+        "de": "Aktualisierungsintervall",
+        "es": "Intervalo de actualización"
+      },
+      "description": {
+        "en": "How often Invoice Ninja is read (six requests each time).",
+        "fr": "Fréquence de lecture d'Invoice Ninja (six requêtes à chaque fois).",
+        "de": "Wie oft Invoice Ninja gelesen wird (jedes Mal sechs Anfragen).",
+        "es": "Frecuencia de lectura de Invoice Ninja (seis solicitudes cada vez)."
+      },
       "required": false,
-      "default": "celsius",
+      "default": "15",
       "options": [
-        { "value": "celsius", "label": { "en": "Celsius", "fr": "Celsius" } },
-        { "value": "fahrenheit", "label": { "en": "Fahrenheit", "fr": "Fahrenheit" } }
+        {
+          "value": "5",
+          "label": {
+            "en": "5 minutes",
+            "fr": "5 minutes",
+            "de": "5 Minuten",
+            "es": "5 minutos"
+          }
+        },
+        {
+          "value": "10",
+          "label": {
+            "en": "10 minutes",
+            "fr": "10 minutes",
+            "de": "10 Minuten",
+            "es": "10 minutos"
+          }
+        },
+        {
+          "value": "15",
+          "label": {
+            "en": "15 minutes",
+            "fr": "15 minutes",
+            "de": "15 Minuten",
+            "es": "15 minutos"
+          }
+        },
+        {
+          "value": "30",
+          "label": {
+            "en": "30 minutes",
+            "fr": "30 minutes",
+            "de": "30 Minuten",
+            "es": "30 minutos"
+          }
+        },
+        {
+          "value": "60",
+          "label": {
+            "en": "60 minutes",
+            "fr": "60 minutes",
+            "de": "60 Minuten",
+            "es": "60 minutos"
+          }
+        }
       ]
     },
     {
-      "key": "poll_frequency",
-      "type": "number",
-      "label": { "en": "Refresh interval (s)", "fr": "Intervalle de rafraîchissement (s)" },
+      "key": "language",
+      "type": "select",
+      "label": {
+        "en": "Language of the texts",
+        "fr": "Langue des textes",
+        "de": "Sprache der Texte",
+        "es": "Idioma de los textos"
+      },
       "description": {
-        "en": "How often sensors are polled, in seconds (one minute minimum).",
-        "fr": "Fréquence d'interrogation des capteurs, en secondes (une minute minimum)."
+        "en": "Names of the features (at their creation) and texts sent to the scenes.",
+        "fr": "Noms des fonctionnalités (à leur création) et textes envoyés aux scènes.",
+        "de": "Namen der Funktionen (bei ihrer Erstellung) und Texte für die Szenen.",
+        "es": "Nombres de las funciones (al crearlas) y textos enviados a las escenas."
       },
       "required": false,
-      "default": 300,
-      "min": 60,
-      "max": 3600
+      "default": "fr",
+      "options": [
+        {
+          "value": "en",
+          "label": {
+            "en": "English",
+            "fr": "Anglais",
+            "de": "Englisch",
+            "es": "Inglés"
+          }
+        },
+        {
+          "value": "fr",
+          "label": {
+            "en": "French",
+            "fr": "Français",
+            "de": "Französisch",
+            "es": "Francés"
+          }
+        },
+        {
+          "value": "de",
+          "label": {
+            "en": "German",
+            "fr": "Allemand",
+            "de": "Deutsch",
+            "es": "Alemán"
+          }
+        },
+        {
+          "value": "es",
+          "label": {
+            "en": "Spanish",
+            "fr": "Espagnol",
+            "de": "Spanisch",
+            "es": "Español"
+          }
+        }
+      ]
     }
   ],
   "actions": [
     {
-      "key": "test_weather",
-      "label": { "en": "Test the weather provider", "fr": "Tester le fournisseur météo" },
-      "timeout_seconds": 30
-    },
-    {
-      "key": "identify",
-      "label": { "en": "Identify a device", "fr": "Identifier un appareil" },
-      "fields": [
-        {
-          "key": "device",
-          "type": "select",
-          "source": "devices",
-          "label": { "en": "Device", "fr": "Appareil" },
-          "required": true
-        }
-      ]
+      "key": "check_now",
+      "label": {
+        "en": "Test the connection",
+        "fr": "Tester la connexion",
+        "de": "Verbindung testen",
+        "es": "Probar la conexión"
+      },
+      "timeout_seconds": 120
     }
   ],
   "scene_triggers": [
     {
-      "key": "motion_detected",
-      "label": { "en": "Motion detected", "fr": "Mouvement détecté" },
-      "description": {
-        "en": "A demo motion sensor saw a person or an animal move.",
-        "fr": "Un détecteur de démonstration a vu bouger une personne ou un animal."
+      "key": "payment_received",
+      "label": {
+        "en": "Invoice Ninja: payment received",
+        "fr": "Invoice Ninja : paiement reçu",
+        "de": "Invoice Ninja: Zahlung erhalten",
+        "es": "Invoice Ninja: pago recibido"
       },
-      "fields": [
-        {
-          "key": "device",
-          "type": "select",
-          "source": "devices",
-          "label": { "en": "Sensor", "fr": "Détecteur" }
-        },
-        {
-          "key": "target",
-          "type": "multi_select",
-          "label": { "en": "What moved", "fr": "Ce qui a bougé" },
-          "options": [
-            { "value": "person", "label": { "en": "Person", "fr": "Personne" } },
-            { "value": "animal", "label": { "en": "Animal", "fr": "Animal" } }
-          ]
-        }
-      ],
+      "description": {
+        "en": "A new payment is recorded in Invoice Ninja (by hand or through a payment gateway).",
+        "fr": "Un nouveau paiement est enregistré dans Invoice Ninja (à la main ou par une passerelle de paiement).",
+        "de": "Eine neue Zahlung wird in Invoice Ninja erfasst (von Hand oder über ein Zahlungs-Gateway).",
+        "es": "Se registra un nuevo pago en Invoice Ninja (a mano o mediante una pasarela de pago)."
+      },
+      "fields": [],
       "variables": [
         {
-          "key": "target",
+          "key": "client",
           "type": "string",
-          "label": { "en": "What moved", "fr": "Ce qui a bougé" }
+          "label": {
+            "en": "Client",
+            "fr": "Client",
+            "de": "Kunde",
+            "es": "Cliente"
+          }
+        },
+        {
+          "key": "amount",
+          "type": "number",
+          "label": {
+            "en": "Amount",
+            "fr": "Montant",
+            "de": "Betrag",
+            "es": "Importe"
+          }
+        },
+        {
+          "key": "currency",
+          "type": "string",
+          "label": {
+            "en": "Currency (EUR, USD…)",
+            "fr": "Devise (EUR, USD…)",
+            "de": "Währung (EUR, USD…)",
+            "es": "Divisa (EUR, USD…)"
+          }
+        },
+        {
+          "key": "number",
+          "type": "string",
+          "label": {
+            "en": "Payment number",
+            "fr": "Numéro du paiement",
+            "de": "Zahlungsnummer",
+            "es": "Número del pago"
+          }
+        },
+        {
+          "key": "date",
+          "type": "string",
+          "label": {
+            "en": "Payment date (YYYY-MM-DD)",
+            "fr": "Date du paiement (AAAA-MM-JJ)",
+            "de": "Zahlungsdatum (JJJJ-MM-TT)",
+            "es": "Fecha del pago (AAAA-MM-DD)"
+          }
+        },
+        {
+          "key": "text",
+          "type": "string",
+          "label": {
+            "en": "Sentence to send or read",
+            "fr": "Phrase à envoyer ou à lire",
+            "de": "Satz zum Senden oder Vorlesen",
+            "es": "Frase para enviar o leer"
+          }
+        }
+      ]
+    },
+    {
+      "key": "invoice_overdue",
+      "label": {
+        "en": "Invoice Ninja: invoice overdue",
+        "fr": "Invoice Ninja : facture en retard",
+        "de": "Invoice Ninja: Rechnung überfällig",
+        "es": "Invoice Ninja: factura vencida"
+      },
+      "description": {
+        "en": "An unpaid invoice passes its due date. Once per invoice, again if it becomes overdue anew.",
+        "fr": "Une facture impayée dépasse son échéance. Une fois par facture, de nouveau si elle repasse en retard.",
+        "de": "Eine offene Rechnung überschreitet ihr Fälligkeitsdatum. Einmal pro Rechnung, erneut wenn sie wieder überfällig wird.",
+        "es": "Una factura impagada supera su vencimiento. Una vez por factura, de nuevo si vuelve a vencer."
+      },
+      "fields": [],
+      "variables": [
+        {
+          "key": "number",
+          "type": "string",
+          "label": {
+            "en": "Invoice number",
+            "fr": "Numéro de facture",
+            "de": "Rechnungsnummer",
+            "es": "Número de factura"
+          }
+        },
+        {
+          "key": "client",
+          "type": "string",
+          "label": {
+            "en": "Client",
+            "fr": "Client",
+            "de": "Kunde",
+            "es": "Cliente"
+          }
+        },
+        {
+          "key": "balance",
+          "type": "number",
+          "label": {
+            "en": "Amount due",
+            "fr": "Montant dû",
+            "de": "Offener Betrag",
+            "es": "Importe pendiente"
+          }
+        },
+        {
+          "key": "currency",
+          "type": "string",
+          "label": {
+            "en": "Currency (EUR, USD…)",
+            "fr": "Devise (EUR, USD…)",
+            "de": "Währung (EUR, USD…)",
+            "es": "Divisa (EUR, USD…)"
+          }
+        },
+        {
+          "key": "due_date",
+          "type": "string",
+          "label": {
+            "en": "Due date (YYYY-MM-DD)",
+            "fr": "Échéance (AAAA-MM-JJ)",
+            "de": "Fälligkeit (JJJJ-MM-TT)",
+            "es": "Vencimiento (AAAA-MM-DD)"
+          }
+        },
+        {
+          "key": "days_late",
+          "type": "number",
+          "label": {
+            "en": "Days late",
+            "fr": "Jours de retard",
+            "de": "Tage überfällig",
+            "es": "Días de retraso"
+          }
+        },
+        {
+          "key": "text",
+          "type": "string",
+          "label": {
+            "en": "Sentence to send or read",
+            "fr": "Phrase à envoyer ou à lire",
+            "de": "Satz zum Senden oder Vorlesen",
+            "es": "Frase para enviar o leer"
+          }
+        }
+      ]
+    },
+    {
+      "key": "quote_accepted",
+      "label": {
+        "en": "Invoice Ninja: quote accepted",
+        "fr": "Invoice Ninja : devis accepté",
+        "de": "Invoice Ninja: Angebot angenommen",
+        "es": "Invoice Ninja: presupuesto aceptado"
+      },
+      "description": {
+        "en": "A quote is approved by the client or converted to an invoice.",
+        "fr": "Un devis est approuvé par le client ou converti en facture.",
+        "de": "Ein Angebot wird vom Kunden angenommen oder in eine Rechnung umgewandelt.",
+        "es": "Un presupuesto es aprobado por el cliente o convertido en factura."
+      },
+      "fields": [],
+      "variables": [
+        {
+          "key": "number",
+          "type": "string",
+          "label": {
+            "en": "Quote number",
+            "fr": "Numéro du devis",
+            "de": "Angebotsnummer",
+            "es": "Número del presupuesto"
+          }
+        },
+        {
+          "key": "client",
+          "type": "string",
+          "label": {
+            "en": "Client",
+            "fr": "Client",
+            "de": "Kunde",
+            "es": "Cliente"
+          }
+        },
+        {
+          "key": "amount",
+          "type": "number",
+          "label": {
+            "en": "Amount",
+            "fr": "Montant",
+            "de": "Betrag",
+            "es": "Importe"
+          }
+        },
+        {
+          "key": "currency",
+          "type": "string",
+          "label": {
+            "en": "Currency (EUR, USD…)",
+            "fr": "Devise (EUR, USD…)",
+            "de": "Währung (EUR, USD…)",
+            "es": "Divisa (EUR, USD…)"
+          }
+        },
+        {
+          "key": "text",
+          "type": "string",
+          "label": {
+            "en": "Sentence to send or read",
+            "fr": "Phrase à envoyer ou à lire",
+            "de": "Satz zum Senden oder Vorlesen",
+            "es": "Frase para enviar o leer"
+          }
         }
       ]
     }
   ],
   "scene_actions": [
     {
-      "key": "identify_device",
-      "label": { "en": "Identify a device", "fr": "Identifier un appareil" },
-      "description": {
-        "en": "Make a device signal itself (the demo light blinks).",
-        "fr": "Fait se signaler un appareil (la lampe de démonstration clignote)."
+      "key": "read_summary",
+      "label": {
+        "en": "Invoice Ninja: read the summary",
+        "fr": "Invoice Ninja : lire le résumé",
+        "de": "Invoice Ninja: Übersicht lesen",
+        "es": "Invoice Ninja: leer el resumen"
       },
-      "timeout_seconds": 15,
-      "fields": [
-        {
-          "key": "device",
-          "type": "select",
-          "source": "devices",
-          "label": { "en": "Device", "fr": "Appareil" },
-          "required": true
-        }
-      ],
+      "description": {
+        "en": "Unpaid and overdue invoices, money received this month and pending quotes, as a sentence to send by message or read aloud.",
+        "fr": "Factures impayées et en retard, encaissements du mois et devis en attente, en une phrase à envoyer par message ou à lire à voix haute.",
+        "de": "Offene und überfällige Rechnungen, Zahlungseingänge des Monats und offene Angebote, als Satz zum Senden oder Vorlesen.",
+        "es": "Facturas impagadas y vencidas, cobros del mes y presupuestos pendientes, en una frase para enviar o leer en voz alta."
+      },
+      "timeout_seconds": 120,
       "outputs": [
         {
-          "key": "signalled",
-          "type": "boolean",
-          "label": { "en": "Device signalled", "fr": "Appareil signalé" }
+          "key": "text",
+          "type": "string",
+          "label": {
+            "en": "Sentence to send or read",
+            "fr": "Phrase à envoyer ou à lire",
+            "de": "Satz zum Senden oder Vorlesen",
+            "es": "Frase para enviar o leer"
+          }
+        },
+        {
+          "key": "unpaid_count",
+          "type": "number",
+          "label": {
+            "en": "Unpaid invoices",
+            "fr": "Factures impayées",
+            "de": "Offene Rechnungen",
+            "es": "Facturas impagadas"
+          }
+        },
+        {
+          "key": "unpaid_amount",
+          "type": "number",
+          "label": {
+            "en": "Amount unpaid",
+            "fr": "Montant impayé",
+            "de": "Offener Betrag",
+            "es": "Importe impagado"
+          }
+        },
+        {
+          "key": "overdue_count",
+          "type": "number",
+          "label": {
+            "en": "Overdue invoices",
+            "fr": "Factures en retard",
+            "de": "Überfällige Rechnungen",
+            "es": "Facturas vencidas"
+          }
+        },
+        {
+          "key": "overdue_amount",
+          "type": "number",
+          "label": {
+            "en": "Amount overdue",
+            "fr": "Montant en retard",
+            "de": "Überfälliger Betrag",
+            "es": "Importe vencido"
+          }
+        },
+        {
+          "key": "paid_month",
+          "type": "number",
+          "label": {
+            "en": "Paid this month",
+            "fr": "Encaissé ce mois-ci",
+            "de": "Diesen Monat bezahlt",
+            "es": "Cobrado este mes"
+          }
+        },
+        {
+          "key": "quotes_pending",
+          "type": "number",
+          "label": {
+            "en": "Pending quotes",
+            "fr": "Devis en attente",
+            "de": "Offene Angebote",
+            "es": "Presupuestos pendientes"
+          }
         }
       ]
     }
   ],
   "widgets": [
     {
-      "key": "demo_status",
-      "label": { "en": "Demo status", "fr": "État de la démo" },
-      "description": {
-        "en": "Live temperature and plug power, plug connection and observed location.",
-        "fr": "Température et puissance en direct, connexion de la prise, position observée."
+      "key": "overview",
+      "label": {
+        "en": "Invoice Ninja overview",
+        "fr": "Aperçu Invoice Ninja",
+        "de": "Invoice-Ninja-Übersicht",
+        "es": "Resumen de Invoice Ninja"
       },
-      "icon": "activity",
-      "action_timeout_seconds": 15
+      "description": {
+        "en": "Overdue invoices, unpaid amount and the latest payments of Invoice Ninja.",
+        "fr": "Factures en retard, montant impayé et derniers paiements d’Invoice Ninja.",
+        "de": "Überfällige Rechnungen, offener Betrag und letzte Zahlungen aus Invoice Ninja.",
+        "es": "Facturas vencidas, importe impagado y últimos pagos de Invoice Ninja."
+      },
+      "icon": "file-text",
+      "settings": [
+        {
+          "key": "show_amounts",
+          "type": "boolean",
+          "label": {
+            "en": "Show the amounts",
+            "fr": "Afficher les montants",
+            "de": "Beträge anzeigen",
+            "es": "Mostrar los importes"
+          },
+          "default": true,
+          "description": {
+            "en": "Off: counts and dates only, for a dashboard seen by everyone.",
+            "fr": "Désactivé : seulement des nombres et des dates, pour un tableau de bord vu par tous.",
+            "de": "Aus: nur Anzahlen und Daten, für ein Dashboard, das alle sehen.",
+            "es": "Desactivado: solo cantidades y fechas, para un panel que ve todo el mundo."
+          }
+        },
+        {
+          "key": "show_summary",
+          "type": "boolean",
+          "label": {
+            "en": "Show the summary tiles",
+            "fr": "Afficher les tuiles de résumé",
+            "de": "Übersichtskacheln anzeigen",
+            "es": "Mostrar los mosaicos de resumen"
+          },
+          "default": true
+        },
+        {
+          "key": "show_overdue",
+          "type": "boolean",
+          "label": {
+            "en": "Show the overdue invoices",
+            "fr": "Afficher les factures en retard",
+            "de": "Überfällige Rechnungen anzeigen",
+            "es": "Mostrar las facturas vencidas"
+          },
+          "default": true
+        },
+        {
+          "key": "show_payments",
+          "type": "boolean",
+          "label": {
+            "en": "Show the latest payments",
+            "fr": "Afficher les derniers paiements",
+            "de": "Letzte Zahlungen anzeigen",
+            "es": "Mostrar los últimos pagos"
+          },
+          "default": true
+        }
+      ]
     }
   ]
 }
