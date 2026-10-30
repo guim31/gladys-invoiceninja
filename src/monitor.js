@@ -420,7 +420,7 @@ export class Monitor {
           (wasPending.has(quote.id) || quote.createdAt >= data.quotes.since),
       )
       .sort((a, b) => a.updatedAt - b.updatedAt);
-    data.quotes.pending = snapshot.pendingQuoteIds;
+    const told = new Set();
     for (const quote of accepted) {
       const sent = await this.fire(TRIGGERS.QUOTE, `Quote #${quote.number}`, {
         number: quote.number,
@@ -437,7 +437,13 @@ export class Monitor {
         break;
       }
       remember(data.quotes, quote);
+      told.add(quote.id);
     }
+    // The accepted quotes not told yet stay candidates: tried again at the next cycle.
+    data.quotes.pending = [
+      ...snapshot.pendingQuoteIds,
+      ...accepted.filter((quote) => !told.has(quote.id)).map((quote) => quote.id),
+    ];
   }
 
   async fire(key, line, data) {

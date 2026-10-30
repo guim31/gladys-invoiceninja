@@ -306,3 +306,26 @@ test('the widget is asked to reload when a reading starts or stops failing', asy
   await cycle(w);
   assert.equal(count(), before + 2);
 });
+
+test('quote_accepted refused by Gladys is sent again at the next cycle', async (t) => {
+  const w = await world(t);
+  const pending = w.ninja.raw.pending.data.find((quote) => quote.number === '0006');
+  w.ninja.raw.pending.data = w.ninja.raw.pending.data.filter((quote) => quote !== pending);
+  w.ninja.raw.accepted.data.unshift({ ...pending, status_id: '3', updated_at: 1793400001 });
+  const publish = w.gladys.publishSceneEvent.bind(w.gladys);
+  let refuse = true;
+  w.gladys.publishSceneEvent = async (...args) => {
+    if (refuse) {
+      throw Object.assign(new Error('Gladys away'), { status: 503 });
+    }
+    return publish(...args);
+  };
+  await cycle(w);
+  refuse = false;
+  await cycle(w);
+  await cycle(w);
+  assert.deepEqual(
+    events(w, 'quote_accepted').map((event) => event.data.number),
+    ['0006'],
+  );
+});
