@@ -206,7 +206,8 @@ export class Monitor {
       return this.running;
     }
     this.running = this.cycle()
-      .catch((err) => this.failed('cycle', 'error', `Refresh cycle failed: ${err.message}`))
+      // The name only: a message could hold an amount or a client name.
+      .catch((err) => this.failed('cycle', 'error', `Refresh cycle failed: ${err.name ?? 'error'}`))
       .finally(() => {
         this.running = null;
       });
@@ -240,6 +241,7 @@ export class Monitor {
         `Reading Invoice Ninja failed: ${this.problem} (${err.code ?? err.name ?? 'error'})`,
       );
       await this.updateConnectionStatus();
+      this.refreshOnChange();
       return;
     }
     const { unpaidCount, overdueCount, latestPayments } = this.snapshot;
@@ -249,10 +251,19 @@ export class Monitor {
     this.recovered('cycle', 'Refresh cycles work again');
     await this.publishDiscovered();
     await this.publishStates();
-    await this.checkTriggers();
-    this.store.save(this.data);
+    try {
+      await this.checkTriggers();
+    } finally {
+      // What was fired is kept even if a later event failed.
+      this.store.save(this.data);
+    }
     await this.updateConnectionStatus();
-    const signature = JSON.stringify(this.snapshot);
+    this.refreshOnChange();
+  }
+
+  /** Ask the widget to reload when what it shows changed (values, or a failure). */
+  refreshOnChange() {
+    const signature = JSON.stringify([this.snapshot, this.problem]);
     if (signature !== this.signature) {
       this.signature = signature;
       this.requestRefresh();
@@ -334,7 +345,10 @@ export class Monitor {
         ...emptyData(),
         company: snapshot.company.id,
         payments: watermark(snapshot.latestPayments, 'createdAt'),
-        quotes: watermark(snapshot.acceptedQuotes, 'updatedAt'),
+        quotes: {
+          ...watermark(snapshot.acceptedQuotes, 'createdAt'),
+          pending: snapshot.pendingQuoteIds,
+        },
         overdue: snapshot.overdue.map((invoice) => invoice.id),
       };
       return;
@@ -394,7 +408,20 @@ export class Monitor {
     // An invoice paid, or due again, leaves the list: overdue again later is news.
     data.overdue = fired;
 
-    for (const quote of fresh(data.quotes, snapshot.acceptedQuotes, 'updatedAt')) {
+    // An accepted quote is news if it was pending at the last reading, or
+    // created since the starting point (sent and accepted between two
+    // readings); never one accepted long ago and only edited now.
+    const wasPending = new Set(data.quotes.pending);
+    const seenQuotes = new Set(data.quotes.seen);
+    const accepted = snapshot.acceptedQuotes
+      .filter(
+        (quote) =>
+          !seenQuotes.has(quote.id) &&
+          (wasPending.has(quote.id) || quote.createdAt >= data.quotes.since),
+      )
+      .sort((a, b) => a.updatedAt - b.updatedAt);
+    data.quotes.pending = snapshot.pendingQuoteIds;
+    for (const quote of accepted) {
       const sent = await this.fire(TRIGGERS.QUOTE, `Quote #${quote.number}`, {
         number: quote.number,
         client: quote.client,
@@ -536,9 +563,10 @@ function restore(saved) {
   }
   const payments = record(saved.payments);
   const quotes = record(saved.quotes);
-  if (!payments || !quotes || !ids(saved.overdue)) {
+  if (!payments || !quotes || !ids(saved.overdue) || !ids(saved.quotes.pending ?? [])) {
     return emptyData();
   }
+  quotes.pending = saved.quotes.pending ?? [];
   return { version: 1, company: saved.company, payments, quotes, overdue: saved.overdue };
 }
 
@@ -547,7 +575,7 @@ function emptyData() {
     version: 1,
     company: null,
     payments: { since: 0, seen: [] },
-    quotes: { since: 0, seen: [] },
+    quotes: { since: 0, seen: [], pending: [] },
     overdue: [],
   };
 }

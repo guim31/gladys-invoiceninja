@@ -278,3 +278,8 @@ long, et sur un « Sie »/« Ihr… » de politesse en allemand. Le store exige 
   validé plus tard reste une nouvelle) ; factures en retard par ensemble d'ids, remplacé à chaque lecture.
 - Le bouton « Préférer la connexion locale » (transports `local` + `cloud`) n'a pas d'effet : une seule
   adresse ; la pastille de l'appareil dit `cloud` pour invoicing.co, `local` sinon.
+- **Redirections jamais suivies** (`redirect: 'manual'`) : fetch (undici) garde `X-API-TOKEN` sur une redirection
+  vers un autre hôte et change le POST en GET (405). Un 3xx devient le statut `redirected`. invoicing.co est
+  toujours interrogé en https.
+- **Devis acceptés** : nouveau si le devis était en attente à la lecture précédente (liste complète des devis
+  `sent`, gardée sous `/data`) ou créé depuis le point de départ ; jamais un vieux devis accepté puis modifié.

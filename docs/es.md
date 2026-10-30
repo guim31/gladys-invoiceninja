@@ -117,13 +117,14 @@ Cuando el servidor no responde, se usan los últimos valores.
 
 ## Solución de problemas
 
-| Mensaje                                         | Qué hacer                                                                                           |
-| ----------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| Invoice Ninja rechaza el token de API           | Cree un token nuevo, cópielo entero, compruebe que pertenece a la empresa correcta                  |
-| No hay API de Invoice Ninja 5 en esta dirección | Indique la dirección con la que abre Invoice Ninja, sin `/api/v1`; Invoice Ninja 4 no es compatible |
-| Invoice Ninja no responde                       | Compruebe que el equipo de Gladys llega a la dirección (red, VPN, cortafuegos, certificado HTTPS)   |
-| Invoice Ninja limita las solicitudes            | Elija un intervalo de actualización más largo                                                       |
-| Invoice Ninja responde con un error             | Consulte los registros de Invoice Ninja; mientras tanto se conservan los últimos valores            |
+| Mensaje                                         | Qué hacer                                                                                                                                                  |
+| ----------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Invoice Ninja rechaza el token de API           | Cree un token nuevo, cópielo entero, compruebe que pertenece a la empresa correcta                                                                         |
+| No hay API de Invoice Ninja 5 en esta dirección | Indique la dirección con la que abre Invoice Ninja, sin `/api/v1`; Invoice Ninja 4 no es compatible                                                        |
+| Invoice Ninja no responde                       | Compruebe que el equipo de Gladys llega a la dirección (red, VPN, cortafuegos, certificado HTTPS)                                                          |
+| La dirección de Invoice Ninja redirige a otra   | Indique la dirección a la que llega el navegador, a menudo con `https://`: las redirecciones nunca se siguen, así que el token nunca se envía a otro sitio |
+| Invoice Ninja limita las solicitudes            | Elija un intervalo de actualización más largo                                                                                                              |
+| Invoice Ninja responde con un error             | Consulte los registros de Invoice Ninja; mientras tanto se conservan los últimos valores                                                                   |
 
 El detalle de cada lectura se escribe en los registros con `LOG_LEVEL=debug`.
 

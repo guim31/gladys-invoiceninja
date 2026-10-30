@@ -120,13 +120,14 @@ serveur ne répond pas, les dernières valeurs servent.
 
 ## Dépannage
 
-| Message                                   | Que faire                                                                                                          |
-| ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| Invoice Ninja refuse le jeton d'API       | Créez un nouveau jeton, copiez-le en entier, vérifiez qu'il appartient à la bonne entreprise                       |
-| Pas d'API Invoice Ninja 5 à cette adresse | Indiquez l'adresse à laquelle vous ouvrez Invoice Ninja, sans `/api/v1` ; Invoice Ninja 4 n'est pas pris en charge |
-| Invoice Ninja ne répond pas               | Vérifiez que la machine de Gladys joint l'adresse (réseau, VPN, pare-feu, certificat HTTPS)                        |
-| Invoice Ninja limite les requêtes         | Choisissez une fréquence de mise à jour plus longue                                                                |
-| Invoice Ninja répond par une erreur       | Consultez les journaux d'Invoice Ninja ; les dernières valeurs sont gardées en attendant                           |
+| Message                                     | Que faire                                                                                                                                          |
+| ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Invoice Ninja refuse le jeton d'API         | Créez un nouveau jeton, copiez-le en entier, vérifiez qu'il appartient à la bonne entreprise                                                       |
+| Pas d'API Invoice Ninja 5 à cette adresse   | Indiquez l'adresse à laquelle vous ouvrez Invoice Ninja, sans `/api/v1` ; Invoice Ninja 4 n'est pas pris en charge                                 |
+| Invoice Ninja ne répond pas                 | Vérifiez que la machine de Gladys joint l'adresse (réseau, VPN, pare-feu, certificat HTTPS)                                                        |
+| L'adresse d'Invoice Ninja redirige ailleurs | Indiquez l'adresse où arrive le navigateur, souvent en `https://` : les redirections ne sont jamais suivies, le jeton ne part donc jamais ailleurs |
+| Invoice Ninja limite les requêtes           | Choisissez une fréquence de mise à jour plus longue                                                                                                |
+| Invoice Ninja répond par une erreur         | Consultez les journaux d'Invoice Ninja ; les dernières valeurs sont gardées en attendant                                                           |
 
 Le détail de chaque lecture s'écrit dans les journaux avec `LOG_LEVEL=debug`.
 

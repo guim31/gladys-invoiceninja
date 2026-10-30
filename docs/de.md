@@ -116,13 +116,14 @@ ist. Antwortet der Server nicht, werden die letzten Werte verwendet.
 
 ## Fehlerbehebung
 
-| Meldung                                        | Was tun                                                                                                         |
-| ---------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
-| Invoice Ninja lehnt das API-Token ab           | Erstelle ein neues Token, kopiere es vollständig, prüfe, dass es zum richtigen Unternehmen gehört               |
-| Keine Invoice-Ninja-5-API unter dieser Adresse | Gib die Adresse ein, unter der du Invoice Ninja öffnest, ohne `/api/v1`; Invoice Ninja 4 wird nicht unterstützt |
-| Invoice Ninja antwortet nicht                  | Prüfe, dass der Gladys-Rechner die Adresse erreicht (Netzwerk, VPN, Firewall, HTTPS-Zertifikat)                 |
-| Invoice Ninja begrenzt die Anfragen            | Wähle ein längeres Aktualisierungsintervall                                                                     |
-| Invoice Ninja antwortet mit einem Fehler       | Sieh in die Protokolle von Invoice Ninja; die letzten Werte bleiben so lange erhalten                           |
+| Meldung                                        | Was tun                                                                                                                                       |
+| ---------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| Invoice Ninja lehnt das API-Token ab           | Erstelle ein neues Token, kopiere es vollständig, prüfe, dass es zum richtigen Unternehmen gehört                                             |
+| Keine Invoice-Ninja-5-API unter dieser Adresse | Gib die Adresse ein, unter der du Invoice Ninja öffnest, ohne `/api/v1`; Invoice Ninja 4 wird nicht unterstützt                               |
+| Invoice Ninja antwortet nicht                  | Prüfe, dass der Gladys-Rechner die Adresse erreicht (Netzwerk, VPN, Firewall, HTTPS-Zertifikat)                                               |
+| Die Adresse von Invoice Ninja leitet weiter    | Gib die Adresse ein, bei der der Browser landet, oft mit `https://`: Weiterleitungen werden nie verfolgt, das Token geht also nie anderswohin |
+| Invoice Ninja begrenzt die Anfragen            | Wähle ein längeres Aktualisierungsintervall                                                                                                   |
+| Invoice Ninja antwortet mit einem Fehler       | Sieh in die Protokolle von Invoice Ninja; die letzten Werte bleiben so lange erhalten                                                         |
 
 Die Einzelheiten jedes Lesens stehen mit `LOG_LEVEL=debug` in den Protokollen.
 

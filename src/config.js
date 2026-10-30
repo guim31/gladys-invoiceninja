@@ -47,7 +47,9 @@ export function parseUrl(text) {
     return null;
   }
   const path = url.pathname.replace(/\/+$/, '').replace(/\/api\/v1$/i, '');
-  return `${url.protocol}//${url.host}${path}`;
+  // The hosted service only answers in HTTPS: never send it the token in clear.
+  const protocol = HOSTED_HOSTS.includes(url.hostname.toLowerCase()) ? 'https:' : url.protocol;
+  return `${protocol}//${url.host}${path}`;
 }
 
 /** Whether an address is the hosted service. */

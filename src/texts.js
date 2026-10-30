@@ -58,7 +58,7 @@ export const PHRASES = {
       `${p.unpaid} facture(s) impayée(s) pour ${p.unpaidAmount}, dont ${p.overdue} en retard pour ${p.overdueAmount}. Encaissé ce mois-ci : ${p.paid}. ${p.quotes} devis en attente.`,
     payment: (p) => `Paiement reçu de ${p.client} : ${p.amount}.`,
     overdue: (p) =>
-      `La facture ${p.number} de ${p.client} est en retard : ${p.amount} dus le ${p.date}.`,
+      `La facture ${p.number} de ${p.client} est en retard : ${p.amount} dû le ${p.date}.`,
     quote: (p) => `Devis ${p.number} accepté par ${p.client} : ${p.amount}.`,
   },
   de: {
@@ -89,6 +89,8 @@ export const STATUS = {
     unauthorized: 'Invoice Ninja refuses the API token.',
     notInvoiceNinja: 'No Invoice Ninja 5 API at this address: check it.',
     rateLimited: 'Invoice Ninja limits the requests: the next reading will try again.',
+    redirected:
+      'The address of Invoice Ninja redirects elsewhere: enter the final one (often with https://).',
     serverError: 'Invoice Ninja answers with an error: the last values are kept.',
     unreachable: 'Invoice Ninja does not answer: the last values are kept.',
     readFailed: 'Invoice Ninja could not be read: see the logs of the integration.',
@@ -104,6 +106,8 @@ export const STATUS = {
     unauthorized: "Invoice Ninja refuse le jeton d'API.",
     notInvoiceNinja: "Pas d'API Invoice Ninja 5 à cette adresse : vérifiez-la.",
     rateLimited: 'Invoice Ninja limite les requêtes : la prochaine lecture réessaiera.',
+    redirected:
+      "L'adresse d'Invoice Ninja redirige ailleurs : indiquez l'adresse finale (souvent en https://).",
     serverError: 'Invoice Ninja répond par une erreur : les dernières valeurs sont gardées.',
     unreachable: 'Invoice Ninja ne répond pas : les dernières valeurs sont gardées.',
     readFailed: "Invoice Ninja n'a pas pu être lu : voir les journaux de l'intégration.",
@@ -119,6 +123,8 @@ export const STATUS = {
     unauthorized: 'Invoice Ninja lehnt das API-Token ab.',
     notInvoiceNinja: 'Keine Invoice-Ninja-5-API unter dieser Adresse: prüfe sie.',
     rateLimited: 'Invoice Ninja begrenzt die Anfragen: das nächste Lesen versucht es erneut.',
+    redirected:
+      'Die Adresse von Invoice Ninja leitet weiter: gib die endgültige an (oft mit https://).',
     serverError: 'Invoice Ninja antwortet mit einem Fehler: die letzten Werte bleiben erhalten.',
     unreachable: 'Invoice Ninja antwortet nicht: die letzten Werte bleiben erhalten.',
     readFailed: 'Invoice Ninja konnte nicht gelesen werden: siehe die Protokolle der Integration.',
@@ -134,6 +140,8 @@ export const STATUS = {
     unauthorized: 'Invoice Ninja rechaza el token de API.',
     notInvoiceNinja: 'No hay API de Invoice Ninja 5 en esta dirección: compruébela.',
     rateLimited: 'Invoice Ninja limita las solicitudes: la próxima lectura lo volverá a intentar.',
+    redirected:
+      'La dirección de Invoice Ninja redirige a otra: indique la dirección final (a menudo con https://).',
     serverError: 'Invoice Ninja responde con un error: se conservan los últimos valores.',
     unreachable: 'Invoice Ninja no responde: se conservan los últimos valores.',
     readFailed: 'No se pudo leer Invoice Ninja: consulte los registros de la integración.',

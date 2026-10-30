@@ -10,7 +10,7 @@
 //   GET  /invoices?client_status=unpaid           sent and partially paid invoices
 //   GET  /payments?date_range=date,<month>        payments dated this month
 //   GET  /payments?sort=created_at|desc           the latest payments (trigger, widget)
-//   GET  /quotes?client_status=sent&per_page=1    pending quotes (the total only)
+//   GET  /quotes?client_status=sent               pending quotes (count, trigger)
 //   GET  /quotes?client_status=approved,converted the latest accepted quotes (trigger)
 //
 // `status=active,archived` leaves deleted records out, `without_deleted_clients`
@@ -64,6 +64,9 @@ function problemOfStatus(status) {
   if (status === 429) {
     return 'rateLimited';
   }
+  if (status >= 300 && status < 400) {
+    return 'redirected';
+  }
   return 'serverError';
 }
 
@@ -86,7 +89,9 @@ export function createClient({ url, token, fetch = globalThis.fetch, timeoutMs =
           Accept: 'application/json',
         },
         signal: AbortSignal.timeout(timeoutMs),
-        redirect: 'follow',
+        // Never followed: fetch would send the X-API-TOKEN header on to another
+        // host, and turn the POST into a GET. The user enters the final address.
+        redirect: 'manual',
       });
     } catch (err) {
       // The message of fetch can hold the address: only its code is kept.
@@ -95,7 +100,7 @@ export function createClient({ url, token, fetch = globalThis.fetch, timeoutMs =
         err?.cause?.code ?? (err?.name === 'TimeoutError' ? 'timeout' : 'network'),
       );
     }
-    if (!response.ok) {
+    if (!response.ok || response.type === 'opaqueredirect') {
       await response.body?.cancel().catch(() => {});
       throw new InvoiceNinjaError(problemOfStatus(response.status), `HTTP ${response.status}`);
     }
@@ -149,10 +154,13 @@ export async function readRaw(client, period) {
     client_status: 'unpaid',
     ...LIVE,
     include: 'client',
+    // A stable order across the pages.
+    sort: 'id|asc',
   });
   const monthPayments = await client.all('/payments', {
     date_range: `date,${period.first},${period.last}`,
     ...LIVE,
+    sort: 'id|asc',
   });
   const latestPayments = listOf(
     await client.request('GET', '/payments', {
@@ -162,11 +170,8 @@ export async function readRaw(client, period) {
       per_page: LATEST_PAYMENTS,
     }),
   );
-  const pending = await client.request('GET', '/quotes', {
-    client_status: 'sent',
-    ...LIVE,
-    per_page: 1,
-  });
+  // Every pending quote: an accepted quote is news when it was pending before.
+  const pending = await client.all('/quotes', { client_status: 'sent', ...LIVE, sort: 'id|asc' });
   const acceptedQuotes = listOf(
     await client.request('GET', '/quotes', {
       client_status: 'approved,converted',
@@ -191,8 +196,15 @@ const rate = (value) => {
   return Number.isFinite(parsed) && parsed > 0 ? parsed : 1;
 };
 /** YYYY-MM-DD of a date field ("2026-10-15", "2026-10-15 00:00:00"), or null. */
-const dayOf = (value) =>
-  /^\d{4}-\d{2}-\d{2}/.test(String(value ?? '')) ? value.slice(0, 10) : null;
+function dayOf(value) {
+  const day = String(value ?? '').slice(0, 10);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) {
+    return null;
+  }
+  // A real calendar day only ("2026-00-00", "2026-02-31" are not).
+  const date = new Date(`${day}T00:00:00Z`);
+  return !Number.isNaN(date.getTime()) && date.toISOString().startsWith(day) ? day : null;
+}
 const clientName = (record) =>
   String(record?.client?.display_name || record?.client?.name || '').trim();
 const live = (record) => record && !record.is_deleted;
@@ -211,7 +223,8 @@ function parseInvoice(invoice, today) {
     number: String(invoice.number ?? ''),
     client: clientName(invoice),
     balance: round(number(invoice.balance) / rate(invoice.exchange_rate)),
-    dueDate,
+    // When late: the date that is past (the partial due date can be the one).
+    dueDate: lateSince ?? dueDate,
     overdue: Boolean(lateSince),
     daysLate: lateSince ? daysBetween(lateSince, today) : 0,
   };
@@ -261,7 +274,8 @@ export function parseSnapshot(raw, today) {
       date: dayOf(payment.date),
       createdAt: number(payment.created_at),
     })),
-    pendingQuotes: number(raw.pending?.meta?.pagination?.total ?? listOf(raw.pending).length),
+    pendingQuotes: raw.pending.filter(live).length,
+    pendingQuoteIds: raw.pending.filter(live).map((quote) => String(quote.id)),
     acceptedQuotes: raw.acceptedQuotes
       .filter(live)
       .filter(
@@ -273,6 +287,7 @@ export function parseSnapshot(raw, today) {
         number: String(quote.number ?? ''),
         client: clientName(quote),
         amount: round(number(quote.amount) / rate(quote.exchange_rate)),
+        createdAt: number(quote.created_at),
         updatedAt: number(quote.updated_at),
       })),
   };

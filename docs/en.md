@@ -113,13 +113,14 @@ server does not answer, the last values are used.
 
 ## Troubleshooting
 
-| Message                                | What to do                                                                                         |
-| -------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| Invoice Ninja refuses the API token    | Create a new token, copy it whole, check it belongs to the right company                           |
-| No Invoice Ninja 5 API at this address | Enter the address you open Invoice Ninja with, without `/api/v1`; Invoice Ninja 4 is not supported |
-| Invoice Ninja does not answer          | Check that the Gladys host reaches the address (network, VPN, firewall, HTTPS certificate)         |
-| Invoice Ninja limits the requests      | Choose a longer refresh interval                                                                   |
-| Invoice Ninja answers with an error    | See the logs of Invoice Ninja; the last values are kept meanwhile                                  |
+| Message                                          | What to do                                                                                                                       |
+| ------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------- |
+| Invoice Ninja refuses the API token              | Create a new token, copy it whole, check it belongs to the right company                                                         |
+| No Invoice Ninja 5 API at this address           | Enter the address you open Invoice Ninja with, without `/api/v1`; Invoice Ninja 4 is not supported                               |
+| Invoice Ninja does not answer                    | Check that the Gladys host reaches the address (network, VPN, firewall, HTTPS certificate)                                       |
+| The address of Invoice Ninja redirects elsewhere | Enter the address the browser ends on, often with `https://`: redirects are never followed, so the token is never sent elsewhere |
+| Invoice Ninja limits the requests                | Choose a longer refresh interval                                                                                                 |
+| Invoice Ninja answers with an error              | See the logs of Invoice Ninja; the last values are kept meanwhile                                                                |
 
 The detail of each reading is written in the logs with `LOG_LEVEL=debug`.
 

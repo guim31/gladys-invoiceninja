@@ -196,3 +196,35 @@ test('the month and the day in the time zone of Gladys', () => {
   assert.equal(currencyCode(17), 'CHF');
   assert.equal(currencyCode('999999'), null);
 });
+
+test('a redirect is never followed: the token stays at the address entered', async () => {
+  const asked = [];
+  const fetch = async (url, options) => {
+    asked.push({ url, redirect: options.redirect });
+    return new Response(null, { status: 301, headers: { location: 'https://elsewhere.example' } });
+  };
+  await assert.rejects(
+    readRaw(createClient({ url: URL_BASE, token: TOKEN, fetch }), periodOf(START)),
+    { problem: 'redirected', code: 'HTTP 301' },
+  );
+  assert.deepEqual(asked, [{ url: `${URL_BASE}/api/v1/companies/current`, redirect: 'manual' }]);
+  // invoicing.co is always asked in HTTPS.
+  assert.equal(parseUrl('invoicing.co'), 'https://invoicing.co');
+  assert.equal(parseUrl('http://invoicing.co/'), 'https://invoicing.co');
+});
+
+test('late through the partial due date: that date is the one told; a bad date is ignored', async () => {
+  const raw = await read(createNinja());
+  const [invoice] = raw.invoices; // 0003, due 2026-11-24
+  invoice.partial = 500;
+  invoice.partial_due_date = '2026-10-20';
+  const late = parseSnapshot(raw, '2026-10-30').overdue.find((item) => item.number === '0003');
+  assert.equal(late.dueDate, '2026-10-20');
+  invoice.partial_due_date = '2026-00-00';
+  invoice.due_date = '2026-02-31';
+  const snapshot = parseSnapshot(raw, '2026-10-30');
+  assert.equal(
+    snapshot.overdue.find((item) => item.number === '0003'),
+    undefined,
+  );
+});

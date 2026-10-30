@@ -175,7 +175,7 @@ test('invoice_overdue: an invoice passing its due date fires once, again after b
   assert.equal(fired[0].data.due_date, '2026-10-31');
   assert.match(
     fired[0].data.text,
-    /^La facture 0003 de Studio Lumière est en retard : 2.500,00.€ dus le 31\/10\/2026\.$/,
+    /^La facture 0003 de Studio Lumière est en retard : 2.500,00.€ dû le 31\/10\/2026\.$/,
   );
   // Paid, then a new due date passed again.
   w.ninja.raw.invoices.data.shift();
@@ -271,4 +271,38 @@ test('payment_received: a payment pending at first is told once completed, even 
     events(w, 'payment_received').map((event) => event.data.number),
     ['0009', '0008'],
   );
+});
+
+test('quote_accepted: a pending quote accepted fires, an old accepted quote edited does not', async (t) => {
+  const w = await world(t);
+  const [accepted] = w.ninja.raw.accepted.data;
+  // Accepted long ago, outside the page read at the start, edited now.
+  w.ninja.raw.accepted.data.push({
+    ...accepted,
+    id: 'old',
+    number: '0000',
+    created_at: 1700000000,
+    updated_at: 1793400000,
+  });
+  // 0006, pending at the start, approved now.
+  const pending = w.ninja.raw.pending.data.find((quote) => quote.number === '0006');
+  w.ninja.raw.pending.data = w.ninja.raw.pending.data.filter((quote) => quote !== pending);
+  w.ninja.raw.accepted.data.unshift({ ...pending, status_id: '3', updated_at: 1793400001 });
+  await cycle(w);
+  assert.deepEqual(
+    events(w, 'quote_accepted').map((event) => event.data.number),
+    ['0006'],
+  );
+});
+
+test('the widget is asked to reload when a reading starts or stops failing', async (t) => {
+  const w = await world(t);
+  const count = () => w.fake.widgetRefreshes.length;
+  const before = count();
+  w.ninja.down = 'ECONNREFUSED';
+  await cycle(w);
+  assert.equal(count(), before + 1);
+  w.ninja.down = false;
+  await cycle(w);
+  assert.equal(count(), before + 2);
 });
