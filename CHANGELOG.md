@@ -10,6 +10,8 @@ the notes of the version's GitHub Release.
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-10-30
+
 ### Added
 
 - Invoice Ninja 5 in Gladys, self-hosted or on invoicing.co, with an API token: a device for the
@@ -20,3 +22,6 @@ the notes of the version's GitHub Release.
 - Dashboard widget: totals, overdue invoices and latest payments, each block and the amounts
   hideable.
 - Texts and documentation in English, French, German and Spanish.
+
+[Unreleased]: https://github.com/guim31/gladys-invoiceninja/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/guim31/gladys-invoiceninja/releases/tag/v1.0.0
