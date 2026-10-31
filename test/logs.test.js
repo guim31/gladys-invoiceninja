@@ -90,7 +90,8 @@ test('even at debug: no amount, no client name, no token, no address', async (t)
   await cycle(w);
   ninja.down = false;
   await w.fake.configUpdated({ ...CONFIG, api_token: 'wrong-token-secret' });
-  const text = lines.map((line) => line.text).join('\n');
+  // Without the timestamp prefix: its milliseconds (e.g. `.750Z`) could match an amount.
+  const text = lines.map(strip).join('\n');
   assert.ok(lines.length > 5);
   for (const secret of [
     TOKEN,
